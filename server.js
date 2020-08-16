@@ -17,7 +17,7 @@ const app = express(),
 //   `*`, //TODO Verificar erro de CORS no heroku
 // ];
 
-app.use(cors());
+app.use(cors({ allowedHeaders: "*" }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
