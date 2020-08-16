@@ -8,31 +8,16 @@ const express = require("express"),
 const { json } = require("express");
 
 const app = express(),
-  port = process.env.PORT || 5000,
-  allowedOrigins = [
-    "http://localhost:3000",
-    "http://0.0.0.0:3000",
-    `http://localhost:${port}`,
-    `http://0.0.0.0:${port}`,
-    `*`,//TODO Verificar erro de CORS no heroku
-  ];
+  port = process.env.PORT || 5000;
+// allowedOrigins = [
+//   "http://localhost:3000",
+//   "http://0.0.0.0:3000",
+//   `http://localhost:${port}`,
+//   `http://0.0.0.0:${port}`,
+//   `*`, //TODO Verificar erro de CORS no heroku
+// ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin
-      // (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        var msg =
-          "The CORS policy for this site does not " +
-          "allow access from the specified Origin.";
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
-  })
-);
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -53,7 +38,8 @@ app.post("/api/auth/:action", async (req, response) => {
   var serviceResponse = null; // = {
 
   if (action == "user") {
-    const { user, pwd } = req.body;
+    const user = req.body.user || req.headers["x-access-user"];
+    const pwd = req.body.pwd || req.headers["x-access-pwd"];
 
     serviceResponse = { ...(await jwt.authUser({ user, pwd })) };
     serviceResponse.service = "auth.user";
