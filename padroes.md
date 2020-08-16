@@ -1,14 +1,15 @@
 # Padrões do projeto
 
-# Table of contents
+## Table of contents
 1. [Nomes de pastas, arquivos, classes, variáveis e métodos](#Nomes-de-pastas,-arquivos,-classes,-variáveis-e-métodos)
 2. [Métodos](#Métodos)
 3. [Comentários iniciais](#Comentários-iniciais)
-4. [Branchs e Commits](#Branchs-e-Commits)
+4. [Versionamento](#Versionamento)
+5. [Branchs, Commits e Merge](#Branchs,-Commits-e-Merge)
     1. [Branchs](#Branchs)
     2. [Commits](#Commits)
-2. [Deploy](#Deploy)
-2. [Boas Práticas](#Boas-Práticas)
+6. [Deploy](#Deploy)
+7. [Boas Práticas](#Boas-Práticas)
 
 ## Nomes de pastas, arquivos, classes, variáveis e métodos
 
@@ -59,6 +60,7 @@ function validateCpf(cpf){
 
 ---
 
+
 ## Métodos
 
 Utilizar o mínimo possível de programação dentro de um algoritmo principal, por exemplo:
@@ -98,7 +100,21 @@ Todos os arquivos do projeto devem possuir um autor, data de criação e uma des
 
 ---
 
-## Branchs e Commits
+## Versionamento
+
+Para vesionamento, utilizar o padrão XX.XX.XX, ex: _01.00.00_
+
+O primeiro grupo de dígitos (**01**.00.00) deve ser alterado quando um grande número de alterações for realizado e existe pouca ou nenhuma compatibilidade com a versão anterior
+
+O segundo grupo de dígitos (01.**01**.00) deve ser alterado quando forem alteradas funcionalidades do sistema, mas ainda existe compatibilidade com a versão anterior.
+
+O terceiro grupo de dígitos (01.01.**01**) deve ser alterado quando forem realizadas correções de bugs.
+
+Se possível, criar uma nova versão/branch do sistema ao final de cada sprint.
+
+---
+
+## Branchs, Commits e Merge
 
 ### Branchs
 
@@ -107,6 +123,8 @@ Todos os arquivos do projeto devem possuir um autor, data de criação e uma des
 
 ### Commits
 
+- Sempre fazer um teste completo em todas as alterações realizadas **antes** de fazer o commit, após o merge com a branch de versão, refazer os testes para validar se as alterações funcionam com o resto do ambiente.
+- Quando realizado o merge com a branch de homologação, refazer os testes sobre alterações realizadas.
 - O assunto do commit deve ser o número o nome da história, ex: 
     - _**HC-1 1**_, criação de novo recurso incrível ABC
     - _**HC-1 2**_, melhoria do recurso ABC (acrescentado validação XYZ)
@@ -125,17 +143,21 @@ Todos os arquivos do projeto devem possuir um autor, data de criação e uma des
 
 ---
 
-## Deploy
-Deploys no Heroku para versões diferentes da **branch Master**, devem ser comunicados no grupo préviamente.
+### Merge
 
-Esse recurso deverá ser utilizado somente para fins de teste, após a realização de testes, de se voltar para versão master.
+Antes do merge para as branchs principais (Master ou Homol), verificar todas as alterações realizadas na versão para atualização no arquivo de [changelog](./changelog.md).
+
+Após o merge, deve ser criado uma nova branch de versão para desenvolvimento de uma nova versão.
+
+---
+
+## Deploy
+- Deploys no Heroku para versões diferentes da **branch Master**, devem ser comunicados no grupo préviamente.
+    - Esse recurso deverá ser utilizado somente para fins de teste, após a realização de testes, voltar para versão master do projeto.
 
 ---
 
 ## Boas Práticas
 
 - Evitar loop for dentro de outros loops for (principalmente no banco de dados), utilizar json ou maps no lugar com ID nos nomes de chaves.
-- Sempre buscar parametrizar argumentos, evitar chumbar parâmetros no código:\
-  ```javascript
-  if(produto.type == 'camiseta') //do something
-  ```
+- Sempre buscar parametrizar argumentos e validações, evitar chumbar parâmetros no código.
