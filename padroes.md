@@ -63,21 +63,53 @@ function validateCpf(cpf){
 
 ## Métodos
 
-Utilizar o mínimo possível de programação dentro de um algoritmo principal, por exemplo:
+Idealmente refatorar métodos até que cada um faça apenas uma coisa, por exemplo:
 
 ```javascript
-function createSomething() {
-  const name = setSomethingName();
-  const someInfo = setSomethingInfo();
+//Autentica e loga o usuario
+function Auth() {
+  /*
+  Código de autenticação
+  ...
+    ...
+  ...
+  */
 
-  function setSomethingName() {
-    return response;
-  }
-  function setSomethingInfo() {
-    return response;
-  }
+  /*
+    Código de Login
+    ...
+      ...
+      ...
+      ...
+    ...
+  */
 }
 ```
+
+O código acima se tornaria algo parecido com:
+
+```javascript
+function authenticateUser() {
+  /*
+  Código de autenticação
+  ...
+    ...
+  ...
+  */
+}
+
+function logInUser() {
+  /*
+    Código de Login
+    ...
+      ...
+      ...
+      ...
+    ...
+  */
+}
+```
+
 
 ---
 
@@ -90,11 +122,6 @@ Todos os arquivos do projeto devem possuir um autor, data de criação e uma des
 @author Gabriel Loch
 @created 2020-08-16
 @descrition Arquivo genérico para construção de páginas no lado do cliente, não deve ser utilizado como roda direta.
-
-@changelog
-    2020-08-17 
-    - @author Gabriel Loch
-    - @description Adicionado suporte a coisas legais 
 ------------------------------------------------------- */
 ```
 
