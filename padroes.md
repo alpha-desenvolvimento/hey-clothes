@@ -122,11 +122,6 @@ Todos os arquivos do projeto devem possuir um autor, data de criação e uma des
 @author Gabriel Loch
 @created 2020-08-16
 @descrition Arquivo genérico para construção de páginas no lado do cliente, não deve ser utilizado como roda direta.
-
-@changelog
-    2020-08-17 
-    - @author Gabriel Loch
-    - @description Adicionado suporte a coisas legais 
 ------------------------------------------------------- */
 ```
 
