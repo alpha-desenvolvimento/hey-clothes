@@ -137,7 +137,7 @@ O segundo grupo de dígitos (01.**01**.00) deve ser alterado quando forem altera
 
 O terceiro grupo de dígitos (01.01.**01**) deve ser alterado quando forem realizadas correções de bugs.
 
-Se possível, criar uma nova versão/branch do sistema ao final de cada sprint.
+Criar uma nova versão/branch do sistema ao final de cada sprint.
 
 ---
 
