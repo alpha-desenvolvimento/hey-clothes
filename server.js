@@ -67,7 +67,9 @@ app.get("/api/*", (req, res) => {
   return res.json(response);
 });
 
-app.use("/", express.static(path.resolve(__dirname, "client", "build")));
+app.use("/*", (req, res) => {
+  return res.sendfile('./index.html');
+});
 
 app.listen(port, () => {
   if (process.env.PORT) {
