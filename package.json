@@ -13,10 +13,8 @@
     "jsonwebtoken": "^8.5.1"
   },
   "scripts": {
-    "heroku-postbuild": "cd client && npm install && npm run build",
     "start": "node server.js",
     "express": "node server.js",
-    "dev:build": "node server.js && cd client && npm run start",
     "install:packages": "pkgInstaller.bat"
   }
 }
