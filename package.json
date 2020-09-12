@@ -14,7 +14,10 @@
   },
   "scripts": {
     "start": "node server.js",
-    "express": "node server.js",
-    "install:packages": "pkgInstaller.bat"
+    "install:packages": "pkgInstaller.bat",
+    "dev": "nodemon server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
