@@ -10,12 +10,22 @@
     "cors": "^2.8.5",
     "dotenv-safe": "^8.2.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.3.3",
+    "sequelize": "^6.3.5"
   },
   "scripts": {
     "start": "node server.js",
-    "install:packages": "pkgInstaller.bat",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "sequelize:migrate": "sequelize db:migrate",
+    "sequelize:seed": "sequelize db:seed:all",
+    "sequelize:migrate-undo:all": "sequelize db:migrate:undo:all",
+    "sequelize:seed-undo:all": "sequelize db:seed:undo:all",
+    "sequelize:create-migration": "sequelize migration:create --name=migration_name",
+    "sequelize:create-seed": "sequelize-cli seed:generate --name seed_name",
+    "sequelize:revert-migration": "sequelize-cli db:migrate:undo",
+    "sequelize:revert-seed": "sequelize-cli db:seed:undo",
+    "heroku-prebuild": "sequelize db:migrate && sequelize-cli db:seed:all"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
