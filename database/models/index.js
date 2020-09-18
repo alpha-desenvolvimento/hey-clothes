@@ -5,6 +5,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 // });
 
 const sequelize = require("../con");
+
 // const User = sequelize.define('user', {
 //   name: DataTypes.STRING,
 //   user: DataTypes.STRING,

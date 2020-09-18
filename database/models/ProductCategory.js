@@ -12,6 +12,8 @@ const ProductCategory = sequelize.define("product-categories", {
     referencesKey: "id",
   },
   name: DataTypes.STRING,
+  createdAt: DataTypes.DATE,
+  updatedAt: DataTypes.DATE
 });
 
 ProductCategory.belongsTo(ProductType, {

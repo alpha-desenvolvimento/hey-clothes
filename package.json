@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "13.9.x"
+    "node": "12.x"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -28,6 +28,7 @@
     "heroku-prebuild": "sequelize db:migrate && sequelize-cli db:seed:all"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "sequelize-cli": "^6.2.0"
   }
 }

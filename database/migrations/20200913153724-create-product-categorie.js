@@ -23,6 +23,14 @@ module.exports = {
         defaultValue: 1,
         values: [0, 1],
       },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
     });
   },
 

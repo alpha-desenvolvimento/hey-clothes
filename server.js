@@ -1,4 +1,5 @@
-console.clear();
+
+// console.clear();
 
 const express = require("express"),
   { json } = require("express"),
@@ -10,6 +11,7 @@ const express = require("express"),
 require("dotenv-safe").config();
 
 const app = express();
+let router = require("./routes/routes")
 const port = process.env.PORT || 5000;
 const { database } = require("./database/models");
 
@@ -19,6 +21,8 @@ app.use(cors({ allowedHeaders: "*" }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use("/",router);
 
 app.all("/api", (req, res) => {
   const response = new ServiceResponse("Unknow API Name");
@@ -73,7 +77,7 @@ app.all("/api/*", (req, res) => {
 });
 
 app.use("/*", (req, res) => {
-  return res.sendfile("./index.html");
+  return res.sendFile("./index.html");
 });
 
 app.listen(port, () => {
@@ -83,3 +87,4 @@ app.listen(port, () => {
     console.log(`Express running http://localhost:${port}`);
   }
 });
+
