@@ -1,3 +1,4 @@
+
 "use strict";
 
 module.exports = {
@@ -9,16 +10,16 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      productType: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        references: { model: "product-type", key: "id" },
-      },
-      name: {
+      // productType: {
+      //   allowNull: false,
+      //   type: DataTypes.INTEGER,
+      //   references: { model: "product-type", key: "id" },
+      // },
+      description: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      isActive: {
+      isActive: {//todo atualizar documento
         type: DataTypes.INTEGER,
         defaultValue: 1,
         values: [0, 1],

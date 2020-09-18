@@ -7,7 +7,7 @@ module.exports = {
       {
         name: "Test user 1",
         email: "e@mail.com",
-        pwd: "123456",
+        password: "123456",
         isActive: 1,
         createdAt: now,
         updatedAt: now
@@ -15,7 +15,7 @@ module.exports = {
       {
         name: "Test user 2",
         email: "e2@mail.com",
-        pwd: "123456a",
+        password: "123456a",
         isActive: 0,
         createdAt: now,
         updatedAt: now

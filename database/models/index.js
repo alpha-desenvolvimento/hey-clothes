@@ -17,8 +17,8 @@ module.exports = {
   sequelize,
   database: {
     User: require("./User"),
-    ProductType: require("./ProductType"),
     ProductCategory: require("./ProductCategory"),
+    Provider: require('./Provider'),
     Product: require("./Product"),
     ProductListed: require("./ProductListed"),
   },

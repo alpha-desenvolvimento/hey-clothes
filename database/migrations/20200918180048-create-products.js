@@ -1,3 +1,4 @@
+//todo atualizar imagens
 "use strict";
 
 // var User = this.sequelize.define('user', {/* attributes */})
@@ -17,16 +18,34 @@ module.exports = {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      description: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      quantity: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
       category: {
         allowNull: false,
         type: DataTypes.INTEGER,
         references: { model: "product-categories", key: "id" },
       },
+      provider: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        references: { model: "provider", key: "id" },
+      },
+      createdBy: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        references: { model: "users", key: "id" },
+      },
       price: {
         type: DataTypes.DECIMAL,
         defaultValue: 0,
       },
-      branch: {
+      brand: {
         allowNull: false,
         type: DataTypes.STRING,
       },
