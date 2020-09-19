@@ -1,10 +1,6 @@
 //todo atualizar imagens
 "use strict";
 
-// var User = this.sequelize.define('user', {/* attributes */})
-// , Company  = this.sequelize.define('company', {/* attributes */});
-
-// User.belongsTo(Company, {foreignKey: 'fk_companyname', targetKey: 'name'}); // Adds fk_companyname to User
 module.exports = {
   up: (queryInterface, DataTypes) => {
     return queryInterface.createTable("products", {
