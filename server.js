@@ -24,6 +24,19 @@ app.use(bodyParser.json());
 
 app.use("/",router);
 
+
+//todo api produto create /id
+    //todo api provider
+    //todo api category
+//todo api usuario create
+ 
+
+//todo update usuario
+
+//todo delete produto /
+
+
+
 app.all("/api", (req, res) => {
   const response = new ServiceResponse("Unknow API Name");
 
