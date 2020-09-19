@@ -25,10 +25,8 @@ router.post("/create", async (req, res) => {
   res.append("service-action", ["create"]);
   const name = req.body.name || req.headers["x-access-name"];
   const phone = req.body.phone || req.headers["x-access-phone"];
-  const createdAt = new Date();
-  const updatedAt = new Date();
 
-  if (!name || !phone) {
+  if (!name && !phone) {
     res.append("error", ["Missing params on declaration."]);
     return res.send(null);
   }
@@ -51,7 +49,6 @@ router.post("/update", async (req, res) => {
   const id = req.body.id || req.headers["x-access-id"];
   const name = req.body.name || req.headers["x-access-name"];
   const phone = req.body.phone || req.headers["x-access-phone"];
-  const updatedAt = new Date();
 
   if (!name || !phone) {
     res.append("error", ["Missing params on declaration."]);
@@ -72,7 +69,10 @@ router.post("/update", async (req, res) => {
   }
 });
 
-// TODO Provider delete
+router.post("/delete", async (req, res) => {
+  // TODO Provider delete
+  return res.json({ message: "erro não implementado!" });
+});
 
 router.get("/:id", async (req, res) => {
   res.append("service-action", ["getByPk"]);

@@ -4,7 +4,7 @@ const sequelize = require("../connection");
 
 const ProductCategory = require("./ProductCategory");
 
-const Product = sequelize.define("product", {
+const Product = sequelize.define("products", {
   id: { type: DataTypes.INTEGER, primaryKey: true },
   name: DataTypes.STRING,
   description: DataTypes.STRING,

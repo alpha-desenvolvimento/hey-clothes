@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use("/api/provider", require("./routes/productProvider"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/category", require("./routes/productCategorie"));
+app.use("/api/product", require("./routes/product"));
 
 app.use("/*", (req, res) => {
   return res.send("?");
@@ -58,48 +59,8 @@ app.listen(port, () => {
 //   return res.json(response);
 // });
 
-// app.all("/api/testServer", async (req, res) => {
-//   console.log(
-//     await database.Product.findAll({
-//       include: [
-//         {
-//           model: database.ProductCategory,
-//           required: true,
-//         },
-//       ],
-//     })
-//   );
 
 //   // try {
 //   //   database.User.create({ name: 'Tester 1', email: 'e@mail.com', pwd: '123456' })
 //   // } catch (error) { }
-// });
-
-// app.post("/api/auth/:action", async (req, res) => {
-//   const { action } = req.params;
-//   var response = new ServiceResponse(
-//     "Unknow API Name",
-//     "Inform a right API path"
-//   );
-
-//   switch (action) {
-//     case "user":
-//       response = await routes.auth.user(req);
-//       break;
-//     case "token":
-//       response = await routes.auth.token(req);
-//       break;
-//   }
-
-//   return res.json(response);
-// });
-
-// app.all("/api/*", (req, res) => {
-//   const response = new ServiceResponse("Unknow API Name");
-
-//   response.setError("This API doesn't exist.");
-
-//   return res.json(response);
-
-//   res.data.data;
 // });

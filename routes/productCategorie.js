@@ -90,7 +90,10 @@ router.post("/update", async (req, res) => {
   }
 });
 
-// TODO category delete
+router.post("/delete", async (req, res) => {
+  // TODO category delete
+  return res.json({ message: "erro não implementado!" });
+});
 
 router.get("/:id", async (req, res) => {
   res.append("service-action", ["getByPk"]);
