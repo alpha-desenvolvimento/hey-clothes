@@ -96,15 +96,31 @@ router.post("/delete", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  console.clear()
+  res.append("service-action", ["get by id"]);
   const { id } = req.params;
-  // console.log(id);
-  return res.json(
-    await Product.findAll({
+
+  let product;
+  try {
+    product = await Product.findAll({
       where: { id },
-       include: [{ model: ProductCategory }],
-    })
-  );
+      include: [{ model: ProductCategory }],
+    });
+  } catch (error) {
+    res.append("error-message", [
+      "Erro ao recuperar produto, verifique se o id informado existe.",
+    ]);
+    return res.json(null);
+  }
+
+  if (!product) {
+    res.append("error-message", [
+      "Erro ao recuperar produto, verifique se o id informado existe.",
+    ]);
+    return res.json(null);
+  }
+  var data = { ...product };
+
+  return res.json(data);
 });
 
 router.all("/*", function (req, res) {
