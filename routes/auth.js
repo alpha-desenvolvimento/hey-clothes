@@ -43,38 +43,4 @@ router.post("/token", async (req, res) => {
   }
 });
 
-// async function authUser(req) {
-//   // console.clear()
-//   const response = new ServiceResponse("auth.user");
-
-//   if (data.error) {
-//     response.setError(data.error);
-//   } else {
-//     console.log("data", data);
-//     delete data.error;
-//     response.setData(data);
-//   }
-
-//   return response;
-// }
-
-// async function authToken(req) {
-//   const response = new ServiceResponse("auth.token");
-
-//   console.log("data", data);
-
-//   if (data.error) {
-//     response.setError(data.error);
-//   } else {
-//     response.setData(data);
-//   }
-
-//   return response;
-// }
-
-// module.exports = {
-//   user: authUser,
-//   token: authToken,
-// };
-
 module.exports = router;
