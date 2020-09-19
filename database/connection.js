@@ -1,6 +1,8 @@
 // require("dotenv-safe").config();
 const { Sequelize, DataTypes } = require("sequelize");
 
-module.exports = new Sequelize(process.env.DATABASE_URL, {
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
 });
+
+module.exports = sequelize;

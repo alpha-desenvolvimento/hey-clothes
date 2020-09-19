@@ -1,13 +1,11 @@
 const { DataTypes } = require("sequelize");
 
-const sequelize = require("../con");
+const sequelize = require("../connection");
 
-const Provider = sequelize.define("provider", {
-    id: { type: DataTypes.INTEGER, primaryKey: true },
-    name: DataTypes.STRING,
-    phone: DataTypes.STRING
-    // createdAt: DataTypes.DATE,
-    // updatedAt: DataTypes.DATE,
-  });
+const Provider = sequelize.define("productProviders", {
+  // id: { type: DataTypes.INTEGER, primaryKey: true },
+  name: DataTypes.STRING,
+  phone: DataTypes.STRING,
+});
 
-  module.exports = Provider;
+module.exports = Provider;

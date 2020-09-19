@@ -1,29 +1,30 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-
-    await queryInterface.bulkInsert('provider', [
+    await queryInterface.bulkInsert("productProviders", [
       {
-      name: 'renner',
-      phone:"11999999999",
-    },
-    {
-      name: 'riachuelo',
-      phone:"11999999999",
-    },
-    {
-      name: 'C&A',
-      phone:"11999999999",
-    },]
-    
-    );
-
+        name: "renner",
+        phone: "11999999999",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "riachuelo",
+        phone: "11999999999",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "C&A",
+        phone: "11999999999",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
-    
-    await queryInterface.bulkDelete('provider');
-     
-  }
+    await queryInterface.bulkDelete("provider");
+  },
 };

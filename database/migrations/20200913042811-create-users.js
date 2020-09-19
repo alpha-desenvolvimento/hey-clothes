@@ -13,7 +13,7 @@ module.exports = {
       name: {
         allowNull: false,
         type: DataTypes.STRING,
-      },
+      }, 
       email: {
         type: DataTypes.STRING,
         unique: {

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: async (queryInterface, DataTypes) => {
-
-    await queryInterface.createTable('provider',
+    await queryInterface.createTable(
+      "productProviders",
       {
         id: {
           allowNull: false,
@@ -18,16 +18,21 @@ module.exports = {
         phone: {
           allowNull: false,
           type: DataTypes.STRING,
-        }
-      }
+        },
+        createdAt: {
+          allowNull: false,
+          type: DataTypes.DATE,
+        },
+        updatedAt: {
+          allowNull: false,
+          type: DataTypes.DATE,
+        },
+      },
+      { freezeTableName: true }
     );
-
   },
 
   down: async (queryInterface, DataTypes) => {
-
-
-    await queryInterface.dropTable('provider');
-
-  }
+    await queryInterface.dropTable("productProviders");
+  },
 };

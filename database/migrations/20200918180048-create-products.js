@@ -12,7 +12,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER,  
       },
       name: {
         allowNull: false,
@@ -29,15 +29,15 @@ module.exports = {
       category: {
         allowNull: false,
         type: DataTypes.INTEGER,
-        references: { model: "product-categories", key: "id" },
+        references: { model: "productCategories", key: "id" },
       },
       provider: {
         allowNull: false,
         type: DataTypes.INTEGER,
-        references: { model: "provider", key: "id" },
+        references: { model: "productProviders", key: "id" },
       },
       createdBy: {
-        allowNull: false,
+        allowNull: false, 
         type: DataTypes.INTEGER,
         references: { model: "users", key: "id" },
       },

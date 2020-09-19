@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 
-const sequelize = require("../con");
+const sequelize = require("../connection");
 
 const ProductCategory = require("./ProductCategory");
 
@@ -22,7 +22,7 @@ const Product = sequelize.define("product", {
 
 
 Product.belongsTo(ProductCategory, {
-  foreignKey: 'category'
+  foreignKey: 'productCategories'
 });
 
 

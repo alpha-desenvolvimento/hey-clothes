@@ -3,7 +3,7 @@
 
 module.exports = {
   up: (queryInterface, DataTypes) => {
-    return queryInterface.createTable("product-categories", {
+    return queryInterface.createTable("productCategories", {
       id: {
         allowNull: false,
         autoIncrement: true,

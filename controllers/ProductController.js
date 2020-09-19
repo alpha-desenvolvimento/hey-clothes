@@ -1,6 +1,7 @@
 let Product = require('../database/models/Product')
 let ProductCategory = require('../database/models/ProductCategory');
-let ServiceResponse = require('../classes/ServiceResponse')
+let ServiceResponse = require('../classes/ServiceResponse');
+const { Sequelize } = require('sequelize');
 
 
 
@@ -18,7 +19,7 @@ class ProductController {
             offset = (parseInt(page) - 1) * 10;
           }
 
-        let products = await Product.findAndCountAll({
+        let products = await ProductListed.findAndCountAll({
             limit: 10,
             offset: offset,
             order: [["id", "ASC"]],

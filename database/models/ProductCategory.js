@@ -1,10 +1,10 @@
 const { DataTypes } = require("sequelize");
 
-const sequelize = require("../con");
+const sequelize = require("../connection");
 
 
 
-const ProductCategory = sequelize.define("product-categories", {
+const ProductCategory = sequelize.define("productCategories", {
   id: { type: DataTypes.INTEGER, primaryKey: true },
   description: DataTypes.STRING
 });
