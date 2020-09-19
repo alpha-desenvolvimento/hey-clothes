@@ -19,7 +19,7 @@ module.exports = {
         type: DataTypes.STRING,
       },
       description: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.STRING,
       },
       quantity: {
@@ -27,12 +27,12 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
       category: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
         references: { model: "productCategories", key: "id" },
       },
       provider: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.INTEGER,
         references: { model: "productProviders", key: "id" },
       },
@@ -46,7 +46,7 @@ module.exports = {
         defaultValue: 0,
       },
       brand: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.STRING,
       },
       imgA: { allowNull: true, type: DataTypes.STRING },
