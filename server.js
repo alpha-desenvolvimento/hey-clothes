@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use("/api/provider", require("./routes/productProvider"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/category", require("./routes/productCategorie"));
-app.use("/api/product", require("./routes/product"));
+app.use("/api/products", require("./routes/product"));
 
 app.use("/*", (req, res) => {
   return res.send("?");
