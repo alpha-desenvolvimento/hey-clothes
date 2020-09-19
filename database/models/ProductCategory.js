@@ -14,7 +14,7 @@ const ProductCategory = sequelize.define("productCategories", {
       },
     },
   },
-  description: DataTypes.STRING,
+  name: DataTypes.STRING,
 });
 
 
