@@ -80,8 +80,6 @@ router.post("/update", async (req, res) => {
   } catch (dbFail) {
     var errorMessage = "";
 
-    // console.log(error.errors[0].message);
-
     for (const error of dbFail.errors) {
       if (error.message) errorMessage += `${error.message} `;
     }
@@ -95,15 +93,17 @@ router.post("/update", async (req, res) => {
 // TODO category delete
 
 router.get("/:id", async (req, res) => {
-  // res.append("service-action", ["getByPk"]);
-  // const { id } = req.params;
-  // const responseDb = await Provider.findByPk(id);
-  // if (responseDb) {
-  //   return res.send(responseDb);
-  // } else {
-  //   res.append("error", ["Invalid ID or Provider ID don't exist."]);
-  //   return res.send(null);
-  // }
+  res.append("service-action", ["getByPk"]);
+  const { id } = req.params;
+
+  const responseDb = await ProductCategory.findByPk(id);
+
+  if (responseDb) {
+      return res.send(responseDb);
+  } else {
+    res.append("error", ["Invalid ID or Product Category ID don't exist."]);
+    return res.send(null);
+  }
 });
 
 router.all("/*", function (req, res) {

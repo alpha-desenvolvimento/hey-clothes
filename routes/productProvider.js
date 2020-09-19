@@ -79,7 +79,7 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const responseDb = await Provider.findByPk(id);
   if (responseDb) {
-    return res.send(responseDb);
+    return res.json(responseDb);
   } else {
     res.append("error", ["Invalid ID or Provider ID don't exist."]);
     return res.send(null);
