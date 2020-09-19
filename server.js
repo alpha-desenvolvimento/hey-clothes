@@ -14,8 +14,6 @@ require("./database/generate")();
 
 const app = express();
 const port = process.env.PORT || 5000;
-// const { models } = require("./database/models");
-
 
 app.use(cors({ allowedHeaders: "*" }));
 
@@ -24,6 +22,7 @@ app.use(bodyParser.json());
 
 app.use("/api/provider", require("./routes/productProvider"));
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/category", require("./routes/productCategorie"));
 
 app.use("/*", (req, res) => {
   return res.send("?");

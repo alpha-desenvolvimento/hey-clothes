@@ -1,4 +1,3 @@
-
 "use strict";
 
 module.exports = {
@@ -10,19 +9,17 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      // productType: {
-      //   allowNull: false,
-      //   type: DataTypes.INTEGER,
-      //   references: { model: "product-type", key: "id" },
-      // },
       description: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      isActive: {//todo atualizar documento
+      isActive: {
+        //todo atualizar documento
         type: DataTypes.INTEGER,
         defaultValue: 1,
-        values: [0, 1],
+        
+          // isIn: { args: [['1', '0']], msg: "Active must be 0 or 1" },
+        },
       },
       createdAt: {
         allowNull: false,
@@ -36,6 +33,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.dropTable("product-categorie");
+    return queryInterface.dropTable("productCategories");
   },
 };

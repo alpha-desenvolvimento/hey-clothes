@@ -9,6 +9,8 @@ router.use(function (req, res, next) {
 
 router.get("/list", async (req, res) => {
   res.append("service-action", ["listAll"]);
+
+  //TODO colocar em um trycatch
   const responseDb = await Provider.findAll();
 
   if (responseDb) {
@@ -30,7 +32,7 @@ router.post("/create", async (req, res) => {
     res.append("error", ["Missing params on declaration."]);
     return res.send(null);
   }
-
+  //TODO colocar em um trycatch
   const responseDb = await Provider.create({
     name,
     phone,
@@ -39,10 +41,11 @@ router.post("/create", async (req, res) => {
   if (responseDb) {
     return res.send(responseDb.dataValues);
   } else {
-    res.append("error", ["There's no provider records on database."]);
+    res.append("error", ["Error while creating new entry."]);
     return res.send(null);
   }
 });
+
 router.post("/update", async (req, res) => {
   res.append("service-action", ["update"]);
   const id = req.body.id || req.headers["x-access-id"];
