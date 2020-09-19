@@ -24,6 +24,7 @@ async function authUser(args = { user: null, pwd: null }) {
       if (pwd == userPwd) {
         resp.auth = true;
         resp.name = name;
+        resp.id = id;
         resp.token = jwt.sign({ id, user }, process.env.JWT_SECRET, {
           expiresIn,
         });
