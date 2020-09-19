@@ -8,7 +8,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,  
+        type: DataTypes.INTEGER,
       },
       name: {
         allowNull: false,
@@ -23,7 +23,7 @@ module.exports = {
         type: DataTypes.INTEGER,
       },
       category: {
-        allowNull: true,
+        allowNull: false,
         type: DataTypes.INTEGER,
         references: { model: "productCategories", key: "id" },
       },
@@ -33,9 +33,18 @@ module.exports = {
         references: { model: "productProviders", key: "id" },
       },
       createdBy: {
-        allowNull: false, 
+        allowNull: false,
         type: DataTypes.INTEGER,
-        references: { model: "users", key: "id" },
+        references: {
+          model: "users",
+          key: "id",
+        },
+        validate: {
+          allowNull: {
+            args: [[false]],
+            msg: "Informe o usuário responsável pelo produto",
+          },
+        },
       },
       price: {
         type: DataTypes.DECIMAL,
