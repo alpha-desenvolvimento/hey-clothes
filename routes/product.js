@@ -4,24 +4,20 @@ const { Op } = require("sequelize"),
     ProductListed,
     Product,
     ProductCategory,
-  } = require("../database/models").models;
+  } = require("../database/models").models,
+  { getRequestParams } = require("../helper/requestUtils");
 
 const router = Router();
-
-// let ProductController = require("../controllers/ProductController");
-//  res.append("service-action", ["listAll"]);
 
 router.use(function (req, res, next) {
   res.append("service", ["product"]);
   next();
 });
 
-// router.get("/list", async (req, res) => {});
-
 router.get("/page/:offset", async (req, res) => {
   res.append("service-action", ["page"]);
 
-  var { limit, prodName } = req.query;
+  var { limit, prodName, estoque } = req.query;
   var { offset } = req.params;
 
   var limit = limit || 10;
@@ -30,7 +26,7 @@ router.get("/page/:offset", async (req, res) => {
   offset = offset * limit;
 
   const where = {};
-  if (prodName) where.name = { [Op.like]: "%" + prodName + "%" };
+  if (prodName) where.name = { [Op.iLike]: "%" + prodName + "%" };
 
   var hasWhere = !(
     Object.keys(where).length === 0 && where.constructor === Object
@@ -86,14 +82,100 @@ router.get("/page/:offset", async (req, res) => {
   return res.json({ ...response });
 });
 
-router.post("/create", async (req, res) => {});
+router.post("/create", async (req, res) => {
+  console.clear();
+  function getParam(name) {
+    return req.body[name] || req.headers[`x-access-${name}`];
+  }
 
-router.post("/update", async (req, res) => {});
+  res.append("service-action", ["create"]);
+  // const ;
+
+  var newProduct;
+
+  try {
+    const now = new Date();
+    newProduct = await Product.create({
+      name: getParam("name"),
+      description: getParam("description"),
+      quantity: getParam("quantity"),
+      category: getParam("category"),
+      provider: getParam("provider"),
+      createdBy: getParam("createdBy"),
+      price: getParam("price"),
+      brand: getParam("brand"),
+      imgA: getParam("imgA"),
+      imgB: getParam("imgB"),
+      imgC: getParam("imgC"),
+      imgD: getParam("imgD"),
+      updatedAt: now,
+      createdAt: now,
+    });
+  } catch (error) {
+    newProduct = error;
+    res.append("error-message", ["Erro ao criar novo registro"]);
+    return res.json(null);
+  }
+  if (!newProduct.dataValues) {
+    res.append("error-message", ["Erro ao criar novo registro"]);
+    return res.json(null);
+  }
+  newProduct = newProduct.dataValues;
+
+  return res.json({ ...newProduct });
+});
+
+router.post("/updateInventory/:id/:value", async (req, res) => {}); // todo updateInventory produto
+
+router.post("/update", async (req, res) => {
+  console.clear();
+  res.append("service-action", ["update"]);
+
+  const newValues = getRequestParams(req, [
+    "id",
+    "createdBy",
+    "name",
+    "description",
+    "price",
+    "brand",
+    "category",
+    "imgA",
+    "imgB",
+    "imgC",
+    "imgD",
+    "isActive",
+  ]);
+
+  try {
+    product = await Product.findByPk(newValues.id);
+  } catch (error) {
+    product = error;
+    res.append("error-message", ["Erro ao atualizar registro"]);
+    return res.json(null);
+  }
+
+  if (!product) {
+    res.append("error-message", [
+      "Erro ao atualizar registro produto informado não localizado.",
+    ]);
+    return res.json(null);
+  }
+
+  for (const key in newValues) product[key] = newValues[key];
+
+  try {
+    product.save();
+  } catch (error) {
+    res.append("error-message", ["Erro ao atualizar registro"]);
+    return res.json(null);
+  }
+
+  return res.json(product.dataValues);
+});
 
 router.post("/delete", async (req, res) => {
-  // TODO produto delete
   return res.json({ message: "erro não implementado!" });
-});
+}); // TODO produto delete
 
 router.get("/:id", async (req, res) => {
   res.append("service-action", ["get by id"]);
@@ -130,52 +212,3 @@ router.all("/*", function (req, res) {
 });
 
 module.exports = router;
-
-// function findAll(req, res) {
-//   const response = new ServiceResponse("API PRODUCTS FINDALL");
-//   let page = req.params.num;
-//   let offset = 0;
-
-//   if (isNaN(page) || page == 1) {
-//     offset = 0;
-//   } else {
-//     offset = (parseInt(page) - 1) * 10;
-//   }
-
-//   let products = await ProductListed.findAndCountAll({
-//     limit: 10,
-//     offset: offset,
-//     order: [["id", "ASC"]],
-//   });
-
-//   let next;
-//   if (offset + 5 >= products.count) {
-//     next = false;
-//   } else {
-//     next = true;
-//   }
-
-//   let result = {
-//     page: parseInt(page),
-//     next: next,
-//     products: products,
-//   };
-
-//   let categories = await ProductCategory.findAll();
-
-//   if (products == undefined) {
-//     response.setError("Products not Found");
-//     res.status(404);
-//     res.json(response);
-//   } else {
-//     response.setData({ result: result });
-//     res.status(200);
-//     res.json(response);
-
-//     var result_={
-//       page: parseInt(page),
-//       next: next,
-//       products: products,
-//     }
-//   }
-// }

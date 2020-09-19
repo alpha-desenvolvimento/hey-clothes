@@ -1,5 +1,6 @@
 var { Router, request, response } = require("express");
-const { ProductCategory } = require("../database/models").models;
+const { Op } = require("sequelize"),
+  { ProductCategory } = require("../database/models").models;
 const router = Router();
 
 router.use(function (req, res, next) {
@@ -9,7 +10,18 @@ router.use(function (req, res, next) {
 
 router.get("/list", async (req, res) => {
   res.append("service-action", ["listAll"]);
-  const responseDb = await ProductCategory.findAll();
+
+  var { catName } = req.query;
+  const where = {};
+  if (catName) where.name = { [Op.iLike]: "%" + catName + "%" };
+
+  var hasWhere = !(
+    Object.keys(where).length === 0 && where.constructor === Object
+  );
+
+  const responseDb = await ProductCategory.findAll({
+    where: hasWhere ? where : null,
+  });
 
   if (responseDb) {
     return res.send(responseDb);
@@ -21,20 +33,20 @@ router.get("/list", async (req, res) => {
 
 router.post("/create", async (req, res) => {
   res.append("service-action", ["create"]);
-  const description =
-    req.body.description || req.headers["x-access-description"];
+  const descnameiption =
+    req.body.name || req.headers["x-access-name"];
   const isActive = req.body.isActive || req.headers["x-access-isActive"];
   const createdAt = new Date();
   const updatedAt = new Date();
 
-  if (!description || !isActive) {
+  if (!name || !isActive) {
     res.append("error", ["Missing params on declaration."]);
     return res.send(null);
   }
   var responseDb;
   try {
     responseDb = await ProductCategory.create({
-      description,
+      name,
       isActive,
       createdAt,
       updatedAt,
@@ -57,8 +69,8 @@ router.post("/create", async (req, res) => {
 router.post("/update", async (req, res) => {
   res.append("service-action", ["create"]);
   const id = req.body.id || req.headers["x-access-id"];
-  const description =
-    req.body.description || req.headers["x-access-description"];
+  const name =
+    req.body.name || req.headers["x-access-name"];
   const isActive = req.body.isActive || req.headers["x-access-isActive"];
 
   var category;
@@ -102,7 +114,7 @@ router.get("/:id", async (req, res) => {
   const responseDb = await ProductCategory.findByPk(id);
 
   if (responseDb) {
-      return res.send(responseDb);
+    return res.send(responseDb);
   } else {
     res.append("error", ["Invalid ID or Product Category ID don't exist."]);
     return res.send(null);

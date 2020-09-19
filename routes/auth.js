@@ -20,9 +20,9 @@ router.post("/user", async (req, res) => {
     res.append("error", [jwtResponse.error]);
     return res.send(null);
   } else {
-    const { auth, token, name } = jwtResponse;
+    const { auth, token, name, id } = jwtResponse;
 
-    return res.json({ auth, token, name });
+    return res.json({ auth, token, name, id });
   }
 });
 
