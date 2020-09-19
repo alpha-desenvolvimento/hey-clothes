@@ -14,10 +14,8 @@ require("./database/generate")();
 
 const app = express();
 const port = process.env.PORT || 5000;
-// let router = require("./routes/routes");
 // const { models } = require("./database/models");
 
-// const routes = require("./routes");
 
 app.use(cors({ allowedHeaders: "*" }));
 
@@ -25,10 +23,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use("/api/provider", require("./routes/productProvider"));
+app.use("/api/auth", require("./routes/auth"));
 
 app.use("/*", (req, res) => {
   return res.send("?");
-  //   return res.sendFile("index.html");
 });
 
 app.listen(port, () => {
@@ -39,7 +37,10 @@ app.listen(port, () => {
   }
 });
 
+//   return res.sendFile("index.html");
 // app.use("/", router);
+// let router = require("./routes/routes");
+// const routes = require("./routes");
 
 //todo api produto create /id
 //todo api provider

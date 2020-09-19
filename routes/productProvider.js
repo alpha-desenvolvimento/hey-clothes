@@ -58,7 +58,7 @@ router.get("/:id", async (req, res) => {
     res.append("error", ["Invalid ID or Provider ID don't exist."]);
     return res.send(null);
   }
-});
+}); 
 
 router.all("/*", function (req, res) {
   res.append("error", ["Invalid API URI"]);
