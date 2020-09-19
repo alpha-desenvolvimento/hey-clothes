@@ -1,6 +1,6 @@
 const { Op } = require("sequelize"),
   { Router, request, response } = require("express"),
-  { ProductListed } = require("../database/models").models;
+  { ProductListed, Product } = require("../database/models").models;
 
 const router = Router();
 
@@ -12,7 +12,7 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.get("/list", async (req, res) => {});
+// router.get("/list", async (req, res) => {});
 
 router.get("/page/:offset", async (req, res) => {
   res.append("service-action", ["page"]);
@@ -77,7 +77,6 @@ router.get("/page/:offset", async (req, res) => {
 
   response.next = offset + limit <= response.founded;
   response.previous = offset > 0;
-
   response.pageCount = Math.floor(response.founded / response.resultLimit);
 
   return res.json({ ...response });
@@ -92,7 +91,11 @@ router.post("/delete", async (req, res) => {
   return res.json({ message: "erro não implementado!" });
 });
 
-router.get("/:id", async (req, res) => {});
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+// console.log(id);
+  return res.json(await Product.findByPk(id));
+});
 
 router.all("/*", function (req, res) {
   res.append("error", ["Invalid API URI"]);

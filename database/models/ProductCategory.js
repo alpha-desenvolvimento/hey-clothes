@@ -17,6 +17,7 @@ const ProductCategory = sequelize.define("productCategories", {
   description: DataTypes.STRING,
 });
 
+
 // ProductCategory.belongsTo(ProductType, {
 //   foreignKey: "productType",
 // });
