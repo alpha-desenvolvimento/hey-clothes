@@ -16,12 +16,12 @@ const Product = sequelize.define("products", {
   imgB: DataTypes.STRING,
   imgC: DataTypes.STRING,
   imgD: DataTypes.STRING
-  // createdAt: DataTypes.DATE,
-  // updatedAt: DataTypes.DATE,
 });
 
 
-Product.hasOne(ProductCategory);
+Product.belongsTo(ProductCategory, {
+  foreignKey: 'category'
+});
 
 
 module.exports = Product;

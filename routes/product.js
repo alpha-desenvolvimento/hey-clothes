@@ -1,6 +1,10 @@
 const { Op } = require("sequelize"),
   { Router, request, response } = require("express"),
-  { ProductListed, Product } = require("../database/models").models;
+  {
+    ProductListed,
+    Product,
+    ProductCategory,
+  } = require("../database/models").models;
 
 const router = Router();
 
@@ -92,9 +96,15 @@ router.post("/delete", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  console.clear()
   const { id } = req.params;
-// console.log(id);
-  return res.json(await Product.findByPk(id));
+  // console.log(id);
+  return res.json(
+    await Product.findAll({
+      where: { id },
+       include: [{ model: ProductCategory }],
+    })
+  );
 });
 
 router.all("/*", function (req, res) {
