@@ -3,7 +3,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../connection");
 
 const ProductCategory = require("./ProductCategory");
-const User = require("./User");
 
 const Product = sequelize.define("products", {
   name: DataTypes.STRING,
@@ -21,9 +20,6 @@ const Product = sequelize.define("products", {
 
 Product.belongsTo(ProductCategory, {
   foreignKey: "category",
-});
-Product.belongsTo(User, {
-  foreignKey: "createdBy",
 });
 
 module.exports = Product;
