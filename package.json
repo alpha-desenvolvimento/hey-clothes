@@ -26,7 +26,7 @@
     "sequelize:create-seed": "sequelize-cli seed:generate --name seed_name",
     "sequelize:revert-migration": "sequelize-cli db:migrate:undo",
     "sequelize:revert-seed": "sequelize-cli db:seed:undo",
-    "heroku-prebuild": "sequelize db:migrate"
+    "heroku-postbuild": "sequelize db:migrate"
   },
   "devDependencies": {
     "nodemon": "^2.0.4",
