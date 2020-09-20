@@ -35,16 +35,7 @@ module.exports = {
       createdBy: {
         allowNull: false,
         type: DataTypes.INTEGER,
-        references: {
-          model: "users",
-          key: "id",
-        },
-        validate: {
-          allowNull: {
-            args: [[false]],
-            msg: "Informe o usuário responsável pelo produto",
-          },
-        },
+        references: { model: "users", key: "id" },
       },
       price: {
         type: DataTypes.DECIMAL,

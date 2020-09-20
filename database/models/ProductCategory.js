@@ -3,7 +3,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../connection");
 
 const ProductCategory = sequelize.define("productCategories", {
-  // id: { type: DataTypes.INTEGER, primaryKey: true },
   isActive: {
     type: DataTypes.INTEGER,
     defaultValue: 1,
@@ -16,10 +15,5 @@ const ProductCategory = sequelize.define("productCategories", {
   },
   name: DataTypes.STRING,
 });
-
-
-// ProductCategory.belongsTo(ProductType, {
-//   foreignKey: "productType",
-// });
 
 module.exports = ProductCategory;

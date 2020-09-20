@@ -90,30 +90,32 @@ router.post("/create", async (req, res) => {
   }
 
   res.append("service-action", ["create"]);
-  // const ;
+
+  var prodValues = getRequestParams(req, [
+    "name",
+    "description",
+    "quantity",
+    "price",
+    "brand",
+    "category",
+    "imgA",
+    "imgB",
+    "createdBy",
+    "provider",
+    "imgC",
+    "imgD",
+  ]);
 
   var newProduct;
 
   try {
     const now = new Date();
     newProduct = await Product.create({
-      name: getParam("name"),
-      description: getParam("description"),
-      quantity: getParam("quantity"),
-      category: getParam("category"),
-      provider: getParam("provider"),
-      createdBy: getParam("createdBy"),
-      price: getParam("price"),
-      brand: getParam("brand"),
-      imgA: getParam("imgA"),
-      imgB: getParam("imgB"),
-      imgC: getParam("imgC"),
-      imgD: getParam("imgD"),
+      ...prodValues,
       updatedAt: now,
       createdAt: now,
     });
   } catch (error) {
-    newProduct = error;
     res.append("error-message", ["Erro ao criar novo registro"]);
     return res.json(null);
   }
