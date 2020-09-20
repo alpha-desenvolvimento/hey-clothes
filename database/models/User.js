@@ -4,6 +4,7 @@ const sequelize = require("../connection");
 const Product = require("./Product");
 
 const User = sequelize.define("user", {
+  // id: { type: DataTypes.INTEGER, primaryKey: true },
   name: DataTypes.STRING, //TODO atualizar username para name no documento
   email: {
     type: DataTypes.STRING,
@@ -39,7 +40,5 @@ const User = sequelize.define("user", {
     },
   },
 });
-
-User.hasMany(Product, { as: "createdProducts" });
 
 module.exports = User;
