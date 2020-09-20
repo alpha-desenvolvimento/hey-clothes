@@ -1,4 +1,3 @@
-
 "use strict";
 
 module.exports = {
@@ -13,21 +12,15 @@ module.exports = {
       name: {
         allowNull: false,
         type: DataTypes.STRING,
-      }, 
+      },
       email: {
         type: DataTypes.STRING,
-        unique: {
-          name: 'users_email',
-          msg: 'Email de usuário já cadastrado',
-        },
-        validate: {
-          notEmpty: true,
-          isEmail: true,
-        },
+        allowNull: false,
+        unique: true,
       },
       password: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(20),
       },
       isActive: {
         type: DataTypes.INTEGER,
