@@ -1,4 +1,6 @@
-var { Router, request, response } = require("express");
+const { Op } = require("sequelize"),
+  { Router, request, response } = require("express");
+  
 const { Provider } = require("../database/models").models;
 const router = Router();
 
@@ -10,8 +12,18 @@ router.use(function (req, res, next) {
 router.get("/list", async (req, res) => {
   res.append("service-action", ["listAll"]);
 
+  var { provName } = req.query;
+  const where = {};
+  if (provName) where.name = { [Op.iLike]: "%" + provName + "%" };
+
+  var hasWhere = !(
+    Object.keys(where).length === 0 && where.constructor === Object
+  );
+
   //TODO colocar em um trycatch
-  const responseDb = await Provider.findAll();
+  const responseDb = await Provider.findAll({
+    where: hasWhere ? where : null,
+  });
 
   if (responseDb) {
     return res.send(responseDb);

@@ -33,8 +33,7 @@ router.get("/list", async (req, res) => {
 
 router.post("/create", async (req, res) => {
   res.append("service-action", ["create"]);
-  const descnameiption =
-    req.body.name || req.headers["x-access-name"];
+  const descnameiption = req.body.name || req.headers["x-access-name"];
   const isActive = req.body.isActive || req.headers["x-access-isActive"];
   const createdAt = new Date();
   const updatedAt = new Date();
@@ -69,8 +68,7 @@ router.post("/create", async (req, res) => {
 router.post("/update", async (req, res) => {
   res.append("service-action", ["create"]);
   const id = req.body.id || req.headers["x-access-id"];
-  const name =
-    req.body.name || req.headers["x-access-name"];
+  const name = req.body.name || req.headers["x-access-name"];
   const isActive = req.body.isActive || req.headers["x-access-isActive"];
 
   var category;

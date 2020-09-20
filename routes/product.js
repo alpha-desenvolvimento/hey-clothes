@@ -1,11 +1,12 @@
 const { Op } = require("sequelize"),
   { Router, request, response } = require("express"),
-  {
-    ProductListed,
-    Product,
-    ProductCategory,
-  } = require("../database/models").models,
   { getRequestParams } = require("../helper/requestUtils");
+
+const {
+  ProductListed,
+  Product,
+  ProductCategory,
+} = require("../database/models").models;
 
 const router = Router();
 
@@ -125,7 +126,54 @@ router.post("/create", async (req, res) => {
   return res.json({ ...newProduct });
 });
 
-router.post("/updateInventory/:id/:value", async (req, res) => {}); // todo updateInventory produto
+router.post("/updateInventory/:id/:value", async (req, res) => {
+  res.append("service-action", ["update inventory"]);
+  var { id, value } = req.params;
+  var product;
+  value = parseFloat(value);
+
+  console.log(value);
+
+  try {
+    product = await Product.findAll({
+      attributes: ["quantity", "id"],
+      where: { id },
+      limit: 1,
+    });
+  } catch (error) {
+    res.append("error-message", [
+      "Erro ao recuperar produto, verifique se o id informado existe.",
+    ]);
+    return res.json(null);
+  }
+
+  if (product.length <= 0) {
+    res.append("error-message", [
+      "Erro ao recuperar produto, verifique se o id informado existe.",
+    ]);
+    return res.json(null);
+  }
+
+  product = product[0];
+
+  product.quantity += value;
+
+  if (product.quantity < 0) {
+    res.append("error-message", [
+      "Erro atualizar estoque, variação informada gera estoque negativo.",
+    ]);
+    return res.json(null);
+  }
+
+  try {
+    await product.save();
+  } catch (error) {
+    res.append("error-message", ["Erro ao atualizar produto"]);
+    return res.json(null);
+  }
+
+  return res.json({ ...product.dataValues });
+});
 
 router.post("/update", async (req, res) => {
   console.clear();

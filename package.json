@@ -17,6 +17,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "sequelize:undo-migrateand-migrate": "sequelize-cli db:migrate:undo && sequelize db:migrate",
     "sequelize:migrate": "sequelize db:migrate",
     "sequelize:seed": "sequelize db:seed:all",
     "sequelize:migrate-undo:all": "sequelize db:migrate:undo:all",
