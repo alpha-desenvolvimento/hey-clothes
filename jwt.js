@@ -1,4 +1,4 @@
-require("dotenv-safe").config();
+if (process.env.NODE_ENV !== "production") require("dotenv-safe").config();
 const jwt = require("jsonwebtoken");
 const { models } = require("./database/models");
 
