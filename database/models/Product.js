@@ -17,8 +17,8 @@ const Product = sequelize.define("products", {
   createdBy: {
     type: DataTypes.INTEGER,
     validate: {
-      allowNull: {
-        args: [[false]],
+      is: {
+        args: [[null]],
         msg: "Informe o usuário responsável pelo produto",
       },
     },

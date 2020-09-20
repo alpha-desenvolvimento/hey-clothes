@@ -1,6 +1,8 @@
 var { Router, request, response } = require("express");
 const { Op } = require("sequelize"),
-  { ProductCategory } = require("../database/models").models;
+  { ProductCategory } = require("../database/models").models,
+  { getRequestParams } = require("../helper/requestUtils");
+
 const router = Router();
 
 router.use(function (req, res, next) {
@@ -33,8 +35,8 @@ router.get("/list", async (req, res) => {
 
 router.post("/create", async (req, res) => {
   res.append("service-action", ["create"]);
-  const descnameiption = req.body.name || req.headers["x-access-name"];
-  const isActive = req.body.isActive || req.headers["x-access-isActive"];
+  const { name, isActive } = getRequestParams(req, ["name", "isActive"]);
+
   const createdAt = new Date();
   const updatedAt = new Date();
 
