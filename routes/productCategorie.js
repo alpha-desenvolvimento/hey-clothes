@@ -82,7 +82,7 @@ router.post("/update", async (req, res) => {
     res.append("error", ["Invalid ID or no provider founded"]);
     return res.send(null);
   }
-  if (description) category.description = description;
+  if (name) category.name = name;
   if (isActive) category.isActive = isActive;
 
   try {
