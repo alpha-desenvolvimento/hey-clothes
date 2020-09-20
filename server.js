@@ -24,6 +24,7 @@ app.use("/api/provider", require("./routes/productProvider"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/category", require("./routes/productCategorie"));
 app.use("/api/products", require("./routes/product"));
+app.use("/api/users", require("./routes/user"));
 
 app.use("/*", (req, res) => {
   return res.send("?");
