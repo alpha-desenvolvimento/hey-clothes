@@ -1,4 +1,4 @@
-require("dotenv-safe").config();
+if (process.env.NODE_ENV !== "production") require("dotenv-safe").config();
 const { Pool } = require("pg"),
   { exec } = require("child_process");
 
@@ -6,8 +6,8 @@ var serverUrl = process.env.DATABASE_URL;
 serverUrl = serverUrl.split("/");
 serverUrl.pop();
 serverUrl = serverUrl.join("/");
- 
-const pool = new Pool({ 
+
+const pool = new Pool({
   connectionString: serverUrl,
 });
 

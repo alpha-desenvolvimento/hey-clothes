@@ -8,7 +8,7 @@ const { exec } = require("child_process"),
   ServiceResponse = require("./classes/ServiceResponse"),
   cors = require("cors");
 
-require("dotenv-safe").config();
+if (process.env.NODE_ENV !== "production") require("dotenv-safe").config();
 
 require("./database/generate")();
 
@@ -59,7 +59,6 @@ app.listen(port, () => {
 
 //   return res.json(response);
 // });
-
 
 //   // try {
 //   //   database.User.create({ name: 'Tester 1', email: 'e@mail.com', pwd: '123456' })
