@@ -5,8 +5,7 @@ function getRequestParams(req, paramList) {
     const values = {};
 
     for (const value of paramList) {
-      let newValue = req.body[value] || req.headers[`x-access-${value}`];
-      if (newValue != undefined) values[value] = newValue;
+      values[value] = req.body[value] || req.headers[`x-access-${value}`];
     }
 
     return values;
