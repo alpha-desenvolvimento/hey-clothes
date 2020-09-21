@@ -11,6 +11,33 @@ router.use(function (req, res, next) {
   next();
 });
 
+router.use("/list", async (req, res) => {
+  res.append("service-action", ["listAll"]);
+
+  var { userName } = req.query;
+  const where = {};
+  if (userName) where.name = { [Op.iLike]: "%" + userName + "%" };
+
+  var hasWhere = !(
+    Object.keys(where).length === 0 && where.constructor === Object
+  );
+
+  const responseDb = await User.findAll({
+    where: hasWhere ? where : null,
+    order: [
+      ["isActive", "DESC"],
+      ["name", "ASC"],
+    ],
+  });
+
+  if (responseDb) {
+    return res.send(responseDb);
+  } else {
+    res.append("error", ["There's no category records on database."]);
+    return res.send(null);
+  }
+});
+
 router.post("/create", async (req, res) => {
   const { name, email, password } = getRequestParams(req, [
     "name",

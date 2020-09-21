@@ -85,10 +85,6 @@ router.get("/page/:offset", async (req, res) => {
 
 router.post("/create", async (req, res) => {
   console.clear();
-  function getParam(name) {
-    return req.body[name] || req.headers[`x-access-${name}`];
-  }
-
   res.append("service-action", ["create"]);
 
   var prodValues = getRequestParams(req, [

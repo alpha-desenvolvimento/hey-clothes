@@ -5,7 +5,7 @@ const sequelize = require("../connection");
 const ProductCategory = sequelize.define("productCategories", {
   isActive: {
     type: DataTypes.INTEGER,
-    defaultValue: 1,
+    // defaultValue: 1,
     validate: {
       isIn: {
         args: [[0, 1]],

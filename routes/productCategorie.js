@@ -23,6 +23,10 @@ router.get("/list", async (req, res) => {
 
   const responseDb = await ProductCategory.findAll({
     where: hasWhere ? where : null,
+    order: [
+      ["isActive", "DESC"],
+      ["name", "ASC"],
+    ],
   });
 
   if (responseDb) {
@@ -69,9 +73,19 @@ router.post("/create", async (req, res) => {
 
 router.post("/update", async (req, res) => {
   res.append("service-action", ["create"]);
-  const id = req.body.id || req.headers["x-access-id"];
-  const name = req.body.name || req.headers["x-access-name"];
-  const isActive = req.body.isActive || req.headers["x-access-isActive"];
+  // const isActive = req.body.isActive || req.headers["x-access-isActive"];
+  console.log("req.body", req.body);
+  var { id, name, isActive } = getRequestParams(req, [
+    "name",
+    "isActive",
+    "id",
+  ]);
+
+  isActive = !isActive ? 0 : isActive;
+
+  console.log("id", id);
+  console.log("name", name);
+  console.log("isActive", isActive);
 
   var category;
   try {
@@ -82,14 +96,14 @@ router.post("/update", async (req, res) => {
     res.append("error", ["Invalid ID or no provider founded"]);
     return res.send(null);
   }
+
   if (name) category.name = name;
-  if (isActive) category.isActive = isActive;
+  if (isActive === 0 || isActive === 1) category.isActive = isActive;
 
   try {
     await category.save();
-
-    return res.json(category);
   } catch (dbFail) {
+    console.log(dbFail);
     var errorMessage = "";
 
     for (const error of dbFail.errors) {
@@ -100,6 +114,9 @@ router.post("/update", async (req, res) => {
     res.append("error-message", [errorMessage]);
     return res.send(null);
   }
+  console.log(category);
+
+  return res.json(category);
 });
 
 router.post("/delete", async (req, res) => {
