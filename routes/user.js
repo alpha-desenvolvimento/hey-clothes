@@ -33,7 +33,7 @@ router.use("/list", async (req, res) => {
   if (responseDb) {
     return res.send(responseDb);
   } else {
-    res.append("error", ["There's no category records on database."]);
+    res.append("error", ["There's no user records on database."]);
     return res.send(null);
   }
 });
