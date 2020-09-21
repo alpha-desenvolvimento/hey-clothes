@@ -1,8 +1,10 @@
-const { Op } = require("sequelize"),
+const { Op, json } = require("sequelize"),
   { Router, request, response } = require("express"),
   { getRequestParams } = require("../helper/requestUtils");
 
-const { User } = require("../database/models").models;
+const { User, UserPasswordToken } = require("../database/models").models;
+// const jwt = require("../jwt");
+const jwt = require("jsonwebtoken");
 
 const router = Router();
 
@@ -139,6 +141,49 @@ router.post("/update", async (req, res) => {
     return res.json(null);
   }
   return res.json({ ...user.dataValues });
+});
+
+router.post("/updatePasswordWithToken/", async (req, res) => {
+  const { token, pwd } = getRequestParams(req, ["token", "pwd"]);
+
+  const validToken = await UserPasswordToken.findOne({
+    attributes: ["id", "token"],
+    where: { token },
+  });
+
+  if (!validToken) return res.json(null);
+
+  var id = null;
+
+  await jwt.verify(
+    validToken.token,
+    process.env.JWT_SECRET,
+    async (err, decoded) => {
+      if (!decoded) return res.json(null);
+      id = decoded.id;
+    }
+  );
+
+  if (!id) return res.json(null);
+
+  const user = await User.findByPk(id);
+
+  if (!user) return res.json(null);
+
+  user.password = pwd;
+
+  const action = await user
+    .save()
+    .then(async () => {
+      UserPasswordToken.destroy({ where: { id: validToken.id } });
+      // await validToken.destroy({ returning: true, checkExistance: true });
+      return res.json(true);
+    })
+    .catch((error) => {
+      return res.json(null);
+    });
+
+  // return res;
 });
 
 router.post("/delete", async (req, res) => {

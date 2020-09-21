@@ -1,5 +1,8 @@
 var { Router, request, response } = require("express"),
-  jwt = require("../jwt");
+  jwt = require("../jwt"),
+  { getRequestParams } = require("../helper/requestUtils");
+
+const User = require("../database/models/User");
 const { Provider } = require("../database/models").models;
 const router = Router();
 
@@ -22,7 +25,23 @@ router.post("/user", async (req, res) => {
   } else {
     const { auth, token, name, id } = jwtResponse;
 
-    return res.json({ auth, token, name, id });
+    return res.json({
+      auth,
+      token,
+      name,
+      id,
+      // profile: { // TODO criar perfis de usuário
+      //   name: "Admin",
+      //   permissions: {
+      //     user: {
+      //       create: true,
+      //       read: true,
+      //       delete: false,
+      //       update: true,
+      //     },
+      //   },
+      // },
+    });
   }
 });
 
@@ -41,6 +60,28 @@ router.post("/token", async (req, res) => {
 
     return res.json({ auth, token, name });
   }
+});
+
+router.post("/resetPassword/email", async (req, res) => {
+  const { email } = getRequestParams(req, ["email"]);
+
+  const jwtResponse = await jwt.userResetToken({ email });
+
+  if (!jwtResponse) return res.json(null);
+
+  return res.send(jwtResponse.join("&"));
+});
+
+router.post("/resetPassword/token", async (req, res) => {
+  const { token } = getRequestParams(req, ["token"]);
+
+  if (!token) return res.json(null);
+
+  const jwtResponse = await jwt.authUserResetToken(token);
+
+  if (!jwtResponse) return res.json(null);
+
+  return res.json({ ...jwtResponse });
 });
 
 module.exports = router;

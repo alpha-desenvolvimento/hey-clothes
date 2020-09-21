@@ -7,6 +7,7 @@ const { exec } = require("child_process"),
   bodyParser = require("body-parser"),
   ServiceResponse = require("./classes/ServiceResponse"),
   cors = require("cors");
+const { setInterval } = require("timers");
 
 if (process.env.NODE_ENV !== "production") require("dotenv-safe").config();
 
@@ -38,29 +39,13 @@ app.listen(port, () => {
   }
 });
 
-//   return res.sendFile("index.html");
-// app.use("/", router);
-// let router = require("./routes/routes");
-// const routes = require("./routes");
+//tarefas
 
-//todo api produto create /id
-//todo api provider
-//todo api category
-//todo api usuario create
+const { cleanOldTokens } = require("./tasks/token");
 
-//todo update usuario
+function tasks() {
+  cleanOldTokens();
+}
 
-//todo delete produto /
-
-// app.all("/api", (req, res) => {
-//   const response = new ServiceResponse("Unknow API Name");
-
-//   response.setError("Must set a API, ex: /api/<API name>");
-
-//   return res.json(response);
-// });
-
-//   // try {
-//   //   database.User.create({ name: 'Tester 1', email: 'e@mail.com', pwd: '123456' })
-//   // } catch (error) { }
-// });
+const timmer = 15 * 1000 * 60;
+setInterval(tasks, timmer);

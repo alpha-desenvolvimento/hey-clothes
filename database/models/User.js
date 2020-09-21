@@ -19,14 +19,7 @@ const User = sequelize.define("user", {
   password: {
     type: DataTypes.STRING,
     validate: {
-      min: {
-        args: 6,
-        msg: "Senha deve contar pelo menos 6 caracteres.",
-      },
-      max: {
-        args: 20,
-        msg: "Senha deve contar no máximo 20 caracteres.",
-      },
+      len: [6, 20],
     },
   },
   isActive: {

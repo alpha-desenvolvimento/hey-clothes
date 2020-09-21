@@ -1,6 +1,6 @@
 if (process.env.NODE_ENV !== "production") require("dotenv-safe").config();
 const jwt = require("jsonwebtoken");
-const { models } = require("./database/models");
+const { User, UserPasswordToken } = require("./database/models").models;
 
 const expiresIn = 60 * 10; // expires in 30 min
 
@@ -19,7 +19,7 @@ async function authUser(args = { user: null, pwd: null }) {
     resp.error = "Informe a senha para autenticar";
   } else {
     try {
-      const userData = await models.User.findOne({ where: { email: user } });
+      const userData = await User.findOne({ where: { email: user } });
       const { id, password: userPwd, name } = userData.dataValues;
       if (pwd == userPwd) {
         resp.auth = true;
@@ -55,7 +55,7 @@ async function authToken(token) {
         const { id, user, exp } = decoded;
         console.log(`Decoding token for: ${user}`);
 
-        const userData = await models.User.findOne({
+        const userData = await User.findOne({
           where: { email: user, id },
         });
 
@@ -77,4 +77,76 @@ async function authToken(token) {
   return resp;
 }
 
-module.exports = { authUser, authToken };
+async function userResetToken(args = { email: null }) {
+  const { email } = args;
+
+  var user = null;
+
+  try {
+    user = await User.findOne({
+      where: { email: email },
+      attributes: ["id", "email"],
+    });
+  } catch (error) {
+    return null;
+  }
+
+  if (!user) return null;
+
+  const token = jwt.sign({ id: user.id, email }, process.env.JWT_SECRET, {
+    expiresIn,
+  });
+
+  await jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+    try {
+      UserPasswordToken.create({ token, expiration: decoded.exp });
+    } catch (error) {}
+  });
+
+  const response = [
+    token,
+    jwt.sign({ token, salt: Math.random() }, process.env.JWT_SECRET, {
+      expiresIn,
+    }),
+  ];
+
+  return response;
+
+  // return ;
+}
+
+async function authUserResetToken(token) {
+  console.clear();
+  var [tokenA, tokenB] = token.split("&");
+
+  if (!tokenA || !tokenB) return null;
+
+  await jwt.verify(tokenB, process.env.JWT_SECRET, async (err, decoded) => {
+    tokenB = decoded;
+  });
+
+  if (!tokenB) return null;
+
+  if (tokenA != tokenB.token) return null;
+
+  const dbToken = await UserPasswordToken.findOne({
+    attributes: ["token", "expiration"],
+    where: { token: tokenA },
+  });
+
+  if (!dbToken) return null;
+
+  await jwt.verify(
+    dbToken.token,
+    process.env.JWT_SECRET,
+    async (err, decoded) => {
+      tokenA = decoded;
+    }
+  );
+
+  if (!tokenA) return null;
+
+  return { token: dbToken.token };
+}
+
+module.exports = { authUser, authToken, userResetToken, authUserResetToken };
