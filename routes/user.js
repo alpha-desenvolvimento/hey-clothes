@@ -93,6 +93,7 @@ router.post("/create", async (req, res) => {
 router.post("/update", async (req, res) => {
   const newValues = getRequestParams(req, ["id", "name", "email", "password"]);
 
+  //TODO users/update sempre retorna nulo para o front
   if (newValues.password && newValues.password.length < 6) {
     res.append("error-message", ["Senha deve contar pelo menos 6 caracteres."]);
     return res.json(null);
