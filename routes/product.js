@@ -21,7 +21,7 @@ router.get("/page/:offset", async (req, res) => {
   var { offset } = req.params;
   var { limit, prodName } = req.query;
 
-  var limit = limit || 10;
+  limit = limit || 12;
   limit = limit > 50 ? 50 : limit;
 
   offset = offset * limit;
@@ -57,6 +57,8 @@ router.get("/page/:offset", async (req, res) => {
   }
   response.founded = dbResponse.count;
   dbResponse = dbResponse.rows;
+
+  console.log(dbResponse);
 
   if (!dbResponse) {
     res.append("error-message", ["Erro ao executar pesquisa de produtos"]);

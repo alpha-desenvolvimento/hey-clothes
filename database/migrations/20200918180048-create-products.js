@@ -16,7 +16,7 @@ module.exports = {
       },
       description: {
         allowNull: true,
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(500),
       },
       quantity: {
         allowNull: false,
