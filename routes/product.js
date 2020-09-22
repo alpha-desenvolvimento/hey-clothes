@@ -18,8 +18,8 @@ router.use(function (req, res, next) {
 router.get("/page/:offset", async (req, res) => {
   res.append("service-action", ["page"]);
 
-  var { limit, prodName, estoque } = req.query;
   var { offset } = req.params;
+  var { limit, prodName } = req.query;
 
   var limit = limit || 10;
   limit = limit > 50 ? 50 : limit;

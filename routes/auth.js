@@ -2,8 +2,7 @@ var { Router, request, response } = require("express"),
   jwt = require("../jwt"),
   { getRequestParams } = require("../helper/requestUtils");
 
-const User = require("../database/models/User");
-const { Provider } = require("../database/models").models;
+const { Provider, User } = require("../database/models").models;
 const router = Router();
 
 router.use(function (req, res, next) {
@@ -14,8 +13,7 @@ router.use(function (req, res, next) {
 router.post("/user", async (req, res) => {
   res.append("service-action", ["user"]);
 
-  const user = req.body.user || req.headers["x-access-user"];
-  const pwd = req.body.pwd || req.headers["x-access-pwd"];
+  const { user, pwd } = getRequestParams(req, ["user", "pwd"]);
 
   const jwtResponse = await jwt.authUser({ user, pwd });
 

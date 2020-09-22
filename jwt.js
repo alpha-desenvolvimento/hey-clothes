@@ -111,42 +111,39 @@ async function userResetToken(args = { email: null }) {
   ];
 
   return response;
-
-  // return ;
 }
 
 async function authUserResetToken(token) {
-  console.clear();
-  var [tokenA, tokenB] = token.split("&");
+  var [tokenPartA, tokenPartB] = token.split("&");
 
-  if (!tokenA || !tokenB) return null;
+  if (!tokenPartA || !tokenPartB) return null;
 
-  await jwt.verify(tokenB, process.env.JWT_SECRET, async (err, decoded) => {
-    tokenB = decoded;
+  await jwt.verify(tokenPartB, process.env.JWT_SECRET, async (err, decoded) => {
+    tokenPartB = decoded;
   });
 
-  if (!tokenB) return null;
+  if (!tokenPartB) return null;
 
-  if (tokenA != tokenB.token) return null;
+  if (tokenPartA != tokenPartB.token) return null;
 
-  const dbToken = await UserPasswordToken.findOne({
+  const validToken = await UserPasswordToken.findOne({
     attributes: ["token", "expiration"],
-    where: { token: tokenA },
+    where: { token: tokenPartA },
   });
 
-  if (!dbToken) return null;
+  if (!validToken) return null;
 
   await jwt.verify(
-    dbToken.token,
+    validToken.token,
     process.env.JWT_SECRET,
     async (err, decoded) => {
-      tokenA = decoded;
+      tokenPartA = decoded;
     }
   );
 
-  if (!tokenA) return null;
+  if (!tokenPartA) return null;
 
-  return { token: dbToken.token };
+  return { token: validToken.token };
 }
 
 module.exports = { authUser, authToken, userResetToken, authUserResetToken };

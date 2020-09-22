@@ -153,37 +153,34 @@ router.post("/updatePasswordWithToken/", async (req, res) => {
 
   if (!validToken) return res.json(null);
 
-  var id = null;
+  var idUserToken = null;
 
   await jwt.verify(
     validToken.token,
     process.env.JWT_SECRET,
     async (err, decoded) => {
       if (!decoded) return res.json(null);
-      id = decoded.id;
+      idUserToken = decoded.id;
     }
   );
 
-  if (!id) return res.json(null);
+  if (!idUserToken) return res.json(null);
 
-  const user = await User.findByPk(id);
+  const userToken = await User.findByPk(idUserToken);
 
-  if (!user) return res.json(null);
+  if (!userToken) return res.json(null);
 
-  user.password = pwd;
+  userToken.password = pwd;
 
-  const action = await user
+  await userToken
     .save()
     .then(async () => {
       UserPasswordToken.destroy({ where: { id: validToken.id } });
-      // await validToken.destroy({ returning: true, checkExistance: true });
       return res.json(true);
     })
     .catch((error) => {
       return res.json(null);
     });
-
-  // return res;
 });
 
 router.post("/delete", async (req, res) => {
