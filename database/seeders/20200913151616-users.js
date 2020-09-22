@@ -20,6 +20,38 @@ module.exports = {
         createdAt: now,
         updatedAt: now,
       },
+      {
+        name: "Gabriel",
+        email: "gabriel@alpha.com",
+        password: "123456",
+        isActive: 1,
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
+        name: "Igor",
+        email: "igor@alpha.com",
+        password: "123456",
+        isActive: 1,
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
+        name: "Isaac",
+        email: "isaac@alpha.com",
+        password: "123456",
+        isActive: 1,
+        createdAt: now,
+        updatedAt: now,
+      },
+      {
+        name: "Miguel",
+        email: "miguel@alpha.com",
+        password: "123456",
+        isActive: 1,
+        createdAt: now,
+        updatedAt: now,
+      },
     ]);
   },
 
