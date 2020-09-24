@@ -10,6 +10,15 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
+      sku: {
+        type: DataTypes.STRING,
+        unique: true,
+      },
+      isActive: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        values: [0, 1],
+      },
       name: {
         allowNull: false,
         type: DataTypes.STRING,
@@ -31,6 +40,12 @@ module.exports = {
         allowNull: true,
         type: DataTypes.INTEGER,
         references: { model: "productProviders", key: "id" },
+      },
+      condition: {
+        allowNull: true,
+        default: 1,
+        type: DataTypes.INTEGER,
+        references: { model: "productCondition", key: "id" },
       },
       createdBy: {
         allowNull: false,

@@ -3,6 +3,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../connection");
 
 const Product = sequelize.define("products", {
+  
   name: DataTypes.STRING,
   description: DataTypes.STRING,
   quantity: DataTypes.INTEGER,
