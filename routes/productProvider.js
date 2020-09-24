@@ -1,6 +1,6 @@
 const { Op } = require("sequelize"),
   { Router, request, response } = require("express");
-  
+
 const { Provider } = require("../database/models").models;
 const router = Router();
 
@@ -23,6 +23,10 @@ router.get("/list", async (req, res) => {
   //TODO colocar em um trycatch
   const responseDb = await Provider.findAll({
     where: hasWhere ? where : null,
+    order: [
+      ["isActive", "DESC"],
+      ["name", "ASC"],
+    ],
   });
 
   if (responseDb) {

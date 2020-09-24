@@ -6,6 +6,7 @@ const {
   ProductListed,
   Product,
   ProductCategory,
+  ProductCondition,
 } = require("../database/models").models;
 
 const router = Router();
@@ -47,8 +48,9 @@ router.get("/page/:offset", async (req, res) => {
     dbResponse = await ProductListed.findAndCountAll({
       limit,
       offset,
-      order: [["id", "ASC"]],
+      order: [["isActive", "DESC"],["name", "ASC"]],
       where: hasWhere ? where : null,
+      include: [ProductCondition],
     });
   } catch (error) {
     console.log(error);
@@ -58,7 +60,7 @@ router.get("/page/:offset", async (req, res) => {
   response.founded = dbResponse.count;
   dbResponse = dbResponse.rows;
 
-  console.log(dbResponse);
+  // console.log(dbResponse);
 
   if (!dbResponse) {
     res.append("error-message", ["Erro ao executar pesquisa de produtos"]);
@@ -92,7 +94,6 @@ router.post("/create", async (req, res) => {
   var prodValues = getRequestParams(req, [
     "name",
     "description",
-    "quantity",
     "price",
     "brand",
     "category",
@@ -101,6 +102,9 @@ router.post("/create", async (req, res) => {
     "createdBy",
     "provider",
     "imgC",
+    "recievedAt",
+    "sku",
+    "soldAt",
     "imgD",
   ]);
 

@@ -10,6 +10,6 @@ module.exports = {
     Provider: require("./Provider"),
     Product: require("./Product"),
     ProductListed: require("./ProductListed"),
-    UserPasswordToken: require("./UserPasswordToken"),
+    ProductCondition: require("./ProductCondition"),
   },
 };

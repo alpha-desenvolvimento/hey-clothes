@@ -2,29 +2,48 @@ const { DataTypes } = require("sequelize");
 
 const sequelize = require("../connection");
 
-const Product = sequelize.define("products", {
-  
-  name: DataTypes.STRING,
-  description: DataTypes.STRING,
-  quantity: DataTypes.INTEGER,
-  price: DataTypes.DECIMAL,
-  brand: DataTypes.STRING, //todo atualizar documento
-  category: DataTypes.INTEGER,
-  provider: DataTypes.INTEGER,
-  imgA: DataTypes.STRING,
-  imgB: DataTypes.STRING,
-  imgC: DataTypes.STRING,
-  imgD: DataTypes.STRING,
-  createdBy: {
-    type: DataTypes.INTEGER,
-    validate: {
-      is: {
-        args: [[null]],
-        msg: "Informe o usuário responsável pelo produto",
+const Product = sequelize.define(
+  "products",
+  {
+    name: DataTypes.STRING,
+    description: DataTypes.STRING,
+    price: DataTypes.DECIMAL,
+    brand: DataTypes.STRING,
+    provider: DataTypes.INTEGER,
+    sku: DataTypes.STRING,
+    imgA: DataTypes.STRING,
+    imgB: DataTypes.STRING,
+    imgC: DataTypes.STRING,
+    imgD: DataTypes.STRING,
+    condition: DataTypes.INTEGER,
+    recievedAt: DataTypes.DATE,
+    soldAt: DataTypes.DATE,
+    isActive: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+      values: [0, 1],
+    },
+    createdBy: {
+      type: DataTypes.INTEGER,
+      validate: {
+        is: {
+          args: [[null]],
+          msg: "Informe o usuário responsável pelo produto",
+        },
       },
     },
   },
-});
+  {
+    hooks: {
+      beforeUpdate: (prod) => {
+        prod.isActive = prod.soldAt ? 0 : 1;
+      },
+      beforeCreate: (prod) => {
+        prod.isActive = prod.soldAt ? 0 : 1;
+      },
+    },
+  }
+);
 
 //TODO ARRUMAR ESSA PORRA
 const User = sequelize.define("user", {
@@ -43,8 +62,14 @@ const Provider = sequelize.define("productProviders", {
   phone: DataTypes.STRING,
 });
 
+const Condition = sequelize.define("productCondition", {
+  id: { type: DataTypes.INTEGER, primaryKey: true },
+  name: DataTypes.STRING,
+});
+
 Product.belongsTo(ProductCategory, { foreignKey: "category" });
 Product.belongsTo(User, { foreignKey: "createdBy" });
 Product.belongsTo(Provider, { foreignKey: "provider" });
+Product.belongsTo(Condition, { foreignKey: "condition" });
 
 module.exports = Product;

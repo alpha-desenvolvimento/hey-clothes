@@ -15,6 +15,14 @@ module.exports = {
           allowNull: false,
           type: DataTypes.STRING,
         },
+        email: {
+          type: DataTypes.STRING,
+          allowNull: true,
+        },
+        endereco: {
+          type: DataTypes.STRING,
+          allowNull: true,
+        },
         phone: {
           allowNull: false,
           type: DataTypes.STRING,
@@ -26,6 +34,11 @@ module.exports = {
         updatedAt: {
           allowNull: false,
           type: DataTypes.DATE,
+        },
+        isActive: {
+          type: DataTypes.INTEGER,
+          defaultValue: 1,
+          values: [0, 1],
         },
       },
       { freezeTableName: true }

@@ -1,4 +1,3 @@
-//todo atualizar imagens
 "use strict";
 
 module.exports = {
@@ -14,11 +13,6 @@ module.exports = {
         type: DataTypes.STRING,
         unique: true,
       },
-      isActive: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
-        values: [0, 1],
-      },
       name: {
         allowNull: false,
         type: DataTypes.STRING,
@@ -26,10 +20,6 @@ module.exports = {
       description: {
         allowNull: true,
         type: DataTypes.STRING(500),
-      },
-      quantity: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
       },
       category: {
         allowNull: false,
@@ -71,6 +61,19 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
+      },
+      recievedAt: {
+        allowNull: true,
+        type: DataTypes.DATE,
+      },
+      soldAt: {
+        allowNull: true,
+        type: DataTypes.DATE,
+      },
+      isActive: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        values: [0, 1],
       },
     });
   },
