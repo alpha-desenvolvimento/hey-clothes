@@ -11,7 +11,7 @@ async function authUser(args = { user: null, pwd: null }) {
     error: null,
     auth: false,
     token: null,
-  };
+  }; 
 
   if (!user) {
     resp.error = "Informe um usuário para autenticar";

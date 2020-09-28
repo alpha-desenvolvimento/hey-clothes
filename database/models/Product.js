@@ -16,8 +16,9 @@ const Product = sequelize.define(
     imgC: DataTypes.STRING,
     imgD: DataTypes.STRING,
     condition: DataTypes.INTEGER,
-    recievedAt: DataTypes.DATE,
-    soldAt: DataTypes.DATE,
+    recievedAt: { type: DataTypes.DATE, allowNull: true },
+    soldAt: { type: DataTypes.DATE, allowNull: true },
+    //
     isActive: {
       type: DataTypes.INTEGER,
       defaultValue: 1,

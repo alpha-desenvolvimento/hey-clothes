@@ -6,6 +6,8 @@ const Provider = sequelize.define("productProviders", {
   // id: { type: DataTypes.INTEGER, primaryKey: true },
   name: DataTypes.STRING,
   phone: DataTypes.STRING,
+  email: DataTypes.STRING,
+  endereco: DataTypes.STRING,
   isActive: {
     type: DataTypes.INTEGER,
     defaultValue: 1,

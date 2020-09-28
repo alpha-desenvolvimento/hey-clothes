@@ -20,7 +20,9 @@ router.get("/page/:offset", async (req, res) => {
   res.append("service-action", ["page"]);
 
   var { offset } = req.params;
-  var { limit, prodName } = req.query;
+  var { limit, name } = req.query;
+
+  console.log('req.query',req.query);
 
   limit = limit || 12;
   limit = limit > 50 ? 50 : limit;
@@ -28,7 +30,9 @@ router.get("/page/:offset", async (req, res) => {
   offset = offset * limit;
 
   const where = {};
-  if (prodName) where.name = { [Op.iLike]: "%" + prodName + "%" };
+  if (name) where.name = { [Op.iLike]: "%" + name + "%" };
+
+  console.log('where',where);
 
   var hasWhere = !(
     Object.keys(where).length === 0 && where.constructor === Object
@@ -48,7 +52,10 @@ router.get("/page/:offset", async (req, res) => {
     dbResponse = await ProductListed.findAndCountAll({
       limit,
       offset,
-      order: [["isActive", "DESC"],["name", "ASC"]],
+      order: [
+        ["isActive", "DESC"],
+        ["name", "ASC"],
+      ],
       where: hasWhere ? where : null,
       include: [ProductCondition],
     });
@@ -181,9 +188,10 @@ router.post("/updateInventory/:id/:value", async (req, res) => {
 
 router.post("/update", async (req, res) => {
   console.clear();
+  console.log("update!");
   res.append("service-action", ["update"]);
 
-  const newValues = getRequestParams(req, [
+  const productField = [
     "id",
     "createdBy",
     "name",
@@ -195,8 +203,14 @@ router.post("/update", async (req, res) => {
     "imgB",
     "imgC",
     "imgD",
-    "isActive",
-  ]);
+    "provider",
+    "recievedAt",
+    "soldAt",
+  ];
+
+  const newValues = getRequestParams(req, productField);
+
+  console.log("newValues", newValues);
 
   try {
     product = await Product.findByPk(newValues.id);
@@ -216,7 +230,9 @@ router.post("/update", async (req, res) => {
   for (const key in newValues) product[key] = newValues[key];
 
   try {
-    product.save();
+    product.save([...productField]);
+
+   
   } catch (error) {
     res.append("error-message", ["Erro ao atualizar registro"]);
     return res.json(null);

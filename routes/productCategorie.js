@@ -72,8 +72,6 @@ router.post("/create", async (req, res) => {
 });
 
 router.post("/update", async (req, res) => {
-  res.append("service-action", ["create"]);
-  // const isActive = req.body.isActive || req.headers["x-access-isActive"];
   console.log("req.body", req.body);
   var { id, name, isActive } = getRequestParams(req, [
     "name",
@@ -81,11 +79,11 @@ router.post("/update", async (req, res) => {
     "id",
   ]);
 
-  isActive = !isActive ? 0 : isActive;
+  isActive = isActive ? 1 : 0;
 
-  console.log("id", id);
-  console.log("name", name);
-  console.log("isActive", isActive);
+  // console.log("id", id);
+  // console.log("name", name);
+  console.log(">>>>>>>>>.isActive", isActive);
 
   var category;
   try {
