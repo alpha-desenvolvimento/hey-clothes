@@ -17,12 +17,10 @@ router.use(function (req, res, next) {
 });
 
 router.get("/page/:offset", async (req, res) => {
-  res.append("service-action", ["page"]);
-
   var { offset } = req.params;
   var { limit, name } = req.query;
 
-  console.log('req.query',req.query);
+  console.log("req.query", req.query);
 
   limit = limit || 12;
   limit = limit > 50 ? 50 : limit;
@@ -32,7 +30,7 @@ router.get("/page/:offset", async (req, res) => {
   const where = {};
   if (name) where.name = { [Op.iLike]: "%" + name + "%" };
 
-  console.log('where',where);
+  console.log("where", where);
 
   var hasWhere = !(
     Object.keys(where).length === 0 && where.constructor === Object
@@ -84,6 +82,7 @@ router.get("/page/:offset", async (req, res) => {
   }
 
   for (const prod of dbResponse) {
+    console.log(prod);
     response.products.push(prod.dataValues);
   }
 
@@ -137,55 +136,6 @@ router.post("/create", async (req, res) => {
   return res.json({ ...newProduct });
 });
 
-router.post("/updateInventory/:id/:value", async (req, res) => {
-  res.append("service-action", ["update inventory"]);
-  var { id, value } = req.params;
-  var product;
-  value = parseFloat(value);
-
-  console.log(value);
-
-  try {
-    product = await Product.findAll({
-      attributes: ["quantity", "id"],
-      where: { id },
-      limit: 1,
-    });
-  } catch (error) {
-    res.append("error-message", [
-      "Erro ao recuperar produto, verifique se o id informado existe.",
-    ]);
-    return res.json(null);
-  }
-
-  if (product.length <= 0) {
-    res.append("error-message", [
-      "Erro ao recuperar produto, verifique se o id informado existe.",
-    ]);
-    return res.json(null);
-  }
-
-  product = product[0];
-
-  product.quantity += value;
-
-  if (product.quantity < 0) {
-    res.append("error-message", [
-      "Erro atualizar estoque, variação informada gera estoque negativo.",
-    ]);
-    return res.json(null);
-  }
-
-  try {
-    await product.save();
-  } catch (error) {
-    res.append("error-message", ["Erro ao atualizar produto"]);
-    return res.json(null);
-  }
-
-  return res.json({ ...product.dataValues });
-});
-
 router.post("/update", async (req, res) => {
   console.clear();
   console.log("update!");
@@ -231,8 +181,6 @@ router.post("/update", async (req, res) => {
 
   try {
     product.save([...productField]);
-
-   
   } catch (error) {
     res.append("error-message", ["Erro ao atualizar registro"]);
     return res.json(null);

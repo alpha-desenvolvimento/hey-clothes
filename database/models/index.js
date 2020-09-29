@@ -11,5 +11,6 @@ module.exports = {
     Product: require("./Product"),
     ProductListed: require("./ProductListed"),
     ProductCondition: require("./ProductCondition"),
+    UserPasswordToken: require("./UserPasswordToken"),
   },
 };
