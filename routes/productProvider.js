@@ -1,5 +1,6 @@
 const { Op } = require("sequelize"),
-  { Router, request, response } = require("express");
+  { Router, request, response } = require("express"),
+  { getRequestParams } = require("../helper/requestUtils");
 
 const { Provider } = require("../database/models").models;
 const router = Router();
@@ -14,7 +15,8 @@ router.get("/list", async (req, res) => {
 
   var { provName } = req.query;
   const where = {};
-  if (provName) where.name = { [Op.iLike]: "%" + provName.split(" ").join("%")  + "%" };
+  if (provName)
+    where.name = { [Op.iLike]: "%" + provName.split(" ").join("%") + "%" };
 
   var hasWhere = !(
     Object.keys(where).length === 0 && where.constructor === Object
@@ -39,18 +41,18 @@ router.get("/list", async (req, res) => {
 
 router.post("/create", async (req, res) => {
   res.append("service-action", ["create"]);
-  const name = req.body.name || req.headers["x-access-name"];
-  const phone = req.body.phone || req.headers["x-access-phone"];
+  const newProvider = getRequestParams(req, [
+    "name",
+    "phone",
+    "email",
+    "endereco",
+  ]);
 
-  if (!name && !phone) {
+  if (!newProvider.name && !newProvider.phone) {
     res.append("error", ["Missing params on declaration."]);
     return res.send(null);
   }
-  //TODO colocar em um trycatch
-  const responseDb = await Provider.create({
-    name,
-    phone,
-  });
+  const responseDb = await Provider.create({ ...newProvider });
 
   if (responseDb) {
     return res.send(responseDb.dataValues);
@@ -61,28 +63,41 @@ router.post("/create", async (req, res) => {
 });
 
 router.post("/update", async (req, res) => {
-  res.append("service-action", ["update"]);
-  const id = req.body.id || req.headers["x-access-id"];
-  const name = req.body.name || req.headers["x-access-name"];
-  const phone = req.body.phone || req.headers["x-access-phone"];
+  const updatedProvider = getRequestParams(req, [
+    "id",
+    "name",
+    "phone",
+    "email",
+    "endereco",
+  ]);
 
-  if (!name || !phone) {
-    res.append("error", ["Missing params on declaration."]);
+  if (!updatedProvider.name || !updatedProvider.phone) {
     return res.send(null);
   }
   var provider;
   try {
-    provider = await Provider.findByPk(id);
-  } catch (error) {}
-  if (provider) {
-    if (name) provider.name = name;
-    if (phone) provider.phone = phone;
-    provider.save();
-    return res.json(provider);
-  } else {
-    res.append("error", ["Invalid ID or no provider founded"]);
-    return res.send(null);
+    provider = await Provider.findByPk(updatedProvider.id);
+  } catch (error) {
+    console.log(error);
+    return res.json(null);
   }
+  console.log('provider',provider);
+  if (!provider) return res.json(null);
+
+  let { name, phone, email, endereco } = updatedProvider;
+  if (name) provider.name = name;
+  if (phone) provider.phone = phone;
+  if (email) provider.email = email;
+  if (endereco) provider.endereco = endereco;
+
+  try {
+    provider.save();
+  } catch (error) {
+    console.log(error);
+    return res.json(null);
+  }
+
+  return res.json(provider);
 });
 
 router.post("/delete", async (req, res) => {

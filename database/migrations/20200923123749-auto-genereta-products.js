@@ -7,9 +7,16 @@ function randomDatePast() {
 function randomDateFuture() {
   const end = new Date();
   const start = new Date(2020, 1, 2);
-  return new Date(
+
+  var date = new Date(
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
   );
+
+  date.setHours(0)
+  date.setMinutes(0)
+  date.setMilliseconds(0)
+  
+  return date;
 }
 
 
