@@ -105,6 +105,7 @@ router.post("/create", async (req, res) => {
     "category",
     "imgA",
     "imgB",
+    'condition',
     "createdBy",
     "provider",
     "imgC",
