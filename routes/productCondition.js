@@ -29,7 +29,6 @@ router.get("/list", async (req, res) => {
   if (responseDb) {
     return res.send(responseDb);
   } else {
-    res.append("error", ["There's no category records on database."]);
     return res.send(null);
   }
 });

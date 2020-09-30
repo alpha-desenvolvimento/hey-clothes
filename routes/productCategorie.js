@@ -1,6 +1,6 @@
 var { Router, request, response } = require("express");
 const { Op } = require("sequelize"),
-  { ProductCategory } = require("../database/models").models,
+  { ProductCategory,Product } = require("../database/models").models,
   { getRequestParams } = require("../helper/requestUtils");
 
 const router = Router();
@@ -74,17 +74,11 @@ router.post("/create", async (req, res) => {
 
 router.post("/update", async (req, res) => {
   console.log("req.body", req.body);
-  var { id, name, isActive } = getRequestParams(req, [
+  const { id, name, isActive } = getRequestParams(req, [
     "name",
     "isActive",
     "id",
   ]);
-
-  isActive = isActive ? 1 : 0;
-
-  // console.log("id", id);
-  // console.log("name", name);
-  console.log(">>>>>>>>>.isActive", isActive);
 
   var category;
   try {
@@ -97,8 +91,13 @@ router.post("/update", async (req, res) => {
   }
 
   if (name) category.name = name;
-  if (isActive === 0 || isActive === 1) category.isActive = isActive;
+  if (isActive === 1 || isActive === "1") {
+    category.isActive = 1;
+  } else {
+    category.isActive = 0;
+  }
 
+  console.log(category);
   try {
     await category.save();
   } catch (dbFail) {
@@ -113,14 +112,44 @@ router.post("/update", async (req, res) => {
     res.append("error-message", [errorMessage]);
     return res.send(null);
   }
-  console.log(category);
 
   return res.json(category);
 });
 
 router.post("/delete", async (req, res) => {
-  // TODO category delete
-  return res.json({ message: "erro não implementado!" });
+  var { id } = getRequestParams(req, ["id"]);
+  var category;
+  try {
+    category = await ProductCategory.findByPk(id);
+  } catch (error) {
+    return res.json(null);
+  }
+
+  if (!category) return res.send(null);
+
+  var hasProduct;
+  try {
+    hasProduct =
+      (await Product.findOne({
+        attributes: ["id"],
+        where: { condition: id },
+      })) != null;
+  } catch (error) {
+    return res.json(null);
+  }
+  console.log(hasProduct);
+
+  if (hasProduct) {
+    return res.json(null);
+  }
+
+  try {
+    category.destroy();
+  } catch (error) {
+    return res.json(null);
+  }
+
+  return res.json(true);
 });
 
 router.get("/:id", async (req, res) => {
@@ -129,12 +158,20 @@ router.get("/:id", async (req, res) => {
 
   const responseDb = await ProductCategory.findByPk(id);
 
-  if (responseDb) {
-    return res.send(responseDb);
-  } else {
-    res.append("error", ["Invalid ID or Product Category ID don't exist."]);
-    return res.send(null);
-  }
+  if (!responseDb) return res.send(null);
+
+  var hasProduct = false;
+  try {
+    hasProduct =
+      (await Product.findOne({
+        attributes: ["id"],
+        where: { category: id },
+      })) != null;
+  } catch (error) {}
+
+  responseDb.dataValues.hasProduct = hasProduct;
+
+  return res.send(responseDb);
 });
 
 router.all("/*", function (req, res) {
