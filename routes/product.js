@@ -28,7 +28,7 @@ router.get("/page/:offset", async (req, res) => {
   offset = offset * limit;
 
   const where = {};
-  if (name) where.name = { [Op.iLike]: "%" + name + "%" };
+  if (name) where.name = { [Op.iLike]: "%" + name.split(" ").join("%") + "%" };
 
   console.log("where", where);
 
