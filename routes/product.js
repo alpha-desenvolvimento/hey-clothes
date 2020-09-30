@@ -105,7 +105,7 @@ router.post("/create", async (req, res) => {
     "category",
     "imgA",
     "imgB",
-    'condition',
+    "condition",
     "createdBy",
     "provider",
     "imgC",
@@ -196,31 +196,21 @@ router.post("/delete/:id", async (req, res) => {
 }); // TODO produto delete
 
 router.get("/:id", async (req, res) => {
-  res.append("service-action", ["get by id"]);
   const { id } = req.params;
 
   let product;
   try {
-    product = await Product.findAll({
+    product = await Product.findOne({
       where: { id },
       include: [{ model: ProductCategory }, { model: ProductCondition }],
     });
   } catch (error) {
-    res.append("error-message", [
-      "Erro ao recuperar produto, verifique se o id informado existe.",
-    ]);
     return res.json(null);
   }
+  
+  if (!product) return res.json(null);
 
-  if (!product) {
-    res.append("error-message", [
-      "Erro ao recuperar produto, verifique se o id informado existe.",
-    ]);
-    return res.json(null);
-  }
-  var data = { ...product };
-
-  return res.json(data);
+  return res.json({...product.dataValues});
 });
 
 router.all("/*", function (req, res) {
