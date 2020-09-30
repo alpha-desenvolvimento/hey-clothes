@@ -5,7 +5,7 @@ const sequelize = require("../connection");
 const ProductCondition = sequelize.define(
   "productCondition",
   {
-    id: { type: DataTypes.INTEGER, primaryKey: true },
+    // id: { type: DataTypes.INTEGER, primaryKey: true },
     name: DataTypes.STRING,
   },
   {

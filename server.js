@@ -19,13 +19,14 @@ const port = process.env.PORT || 5000;
 app.use(cors({ allowedHeaders: "*" }));
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 app.use("/api/provider", require("./routes/productProvider"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/category", require("./routes/productCategorie"));
 app.use("/api/products", require("./routes/product"));
 app.use("/api/users", require("./routes/user"));
+app.use("/api/conditions", require("./routes/productCondition"));
 
 app.use("/*", (req, res) => {
   return res.send("?");

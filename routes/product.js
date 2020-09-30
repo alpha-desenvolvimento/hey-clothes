@@ -189,8 +189,11 @@ router.post("/update", async (req, res) => {
   return res.json(product.dataValues);
 });
 
-router.post("/delete", async (req, res) => {
+router.post("/delete/:id", async (req, res) => {
+
+ 
   return res.json({ message: "erro não implementado!" });
+
 }); // TODO produto delete
 
 router.get("/:id", async (req, res) => {
