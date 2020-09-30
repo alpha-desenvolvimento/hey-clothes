@@ -15,7 +15,7 @@ router.get("/list", async (req, res) => {
 
   var { catName } = req.query;
   const where = {};
-  if (catName) where.name = { [Op.iLike]: "%" + catName + "%" };
+  if (catName) where.name = { [Op.iLike]: "%" +  catName.split(" ").join("%") + "%" };
 
   var hasWhere = !(
     Object.keys(where).length === 0 && where.constructor === Object

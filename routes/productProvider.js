@@ -14,7 +14,7 @@ router.get("/list", async (req, res) => {
 
   var { provName } = req.query;
   const where = {};
-  if (provName) where.name = { [Op.iLike]: "%" + provName + "%" };
+  if (provName) where.name = { [Op.iLike]: "%" + provName.split(" ").join("%")  + "%" };
 
   var hasWhere = !(
     Object.keys(where).length === 0 && where.constructor === Object
