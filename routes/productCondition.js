@@ -23,10 +23,7 @@ router.get("/list", async (req, res) => {
 
   const responseDb = await ProductCondition.findAll({
     where: hasWhere ? where : null,
-    order: [
-
-      ["name", "ASC"],
-    ],
+    order: [["name", "ASC"]],
   });
 
   if (responseDb) {
@@ -43,8 +40,6 @@ router.post("/create", async (req, res) => {
 
   const createdAt = new Date();
   const updatedAt = new Date();
-
-  
 
   if (!name) {
     res.append("error", ["Missing params on declaration."]);
@@ -74,14 +69,11 @@ router.post("/create", async (req, res) => {
 
 router.post("/update", async (req, res) => {
   console.log("req.body", req.body);
-  var { id, name } = getRequestParams(req, [
-    "name",
-    "id",
-  ]);
+  var { id, name } = getRequestParams(req, ["name", "id"]);
   var condition;
   try {
     condition = await ProductCondition.findByPk(id);
-  } catch (error) { }
+  } catch (error) {}
 
   if (!condition) {
     res.append("error", ["Invalid ID or no provider founded"]);
@@ -110,45 +102,66 @@ router.post("/update", async (req, res) => {
 });
 
 router.post("/delete", async (req, res) => {
-  var { id } = getRequestParams(req, ["id",]);
+  var { id } = getRequestParams(req, ["id"]);
   var condition;
   try {
     condition = await ProductCondition.findByPk(id);
-  } catch (error) { return res.json(null) }
+  } catch (error) {
+    return res.json(null);
+  }
 
   if (!condition) return res.send(null);
 
-  var hasProduct
-
+  var hasProduct;
   try {
-    hasProduct = await Product.findOne({ attributes: ["id"], where: { condition: id } }) != null;
-  } catch (error) { return res.json(null) }
-  console.log(hasProduct)
+    hasProduct =
+      (await Product.findOne({
+        attributes: ["id"],
+        where: { condition: id },
+      })) != null;
+  } catch (error) {
+    return res.json(null);
+  }
+  console.log(hasProduct);
 
   if (hasProduct) {
-    return res.json(null)
+    return res.json(null);
   }
 
   try {
-    condition.destroy()
+    condition.destroy();
   } catch (error) {
-    return res.json(null)
+    return res.json(null);
   }
 
-  return res.json(true)
-
+  return res.json(true);
 });
 
 router.get("/:id", async (req, res) => {
   res.append("service-action", ["getByPk"]);
   const { id } = req.params;
 
-  const responseDb = await ProductCondition.findByPk(id);
+  var responseDb;
+  try {
+    responseDb = await ProductCondition.findByPk(id);
+  } catch (error) {
+    return res.json(null);
+  }
+
+  var hasProduct = false;
+  try {
+    hasProduct =
+      (await Product.findOne({
+        attributes: ["id"],
+        where: { condition: id },
+      })) != null;
+  } catch (error) {}
+
+  responseDb.dataValues.hasProduct = hasProduct;
 
   if (responseDb) {
-    return res.send(responseDb);
+    return res.send(responseDb.dataValues);
   } else {
-    res.append("error", ["Invalid ID or Product Category ID don't exist."]);
     return res.send(null);
   }
 });

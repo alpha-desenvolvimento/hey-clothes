@@ -124,7 +124,7 @@ router.post("/create", async (req, res) => {
       createdAt: now,
     });
   } catch (error) {
-    res.append("error-message", ["Erro ao criar novo registro"]);
+    console.log(error);
     return res.json(null);
   }
   if (!newProduct.dataValues) {
@@ -152,6 +152,7 @@ router.post("/update", async (req, res) => {
     "imgA",
     "imgB",
     "imgC",
+    "condition",
     "imgD",
     "provider",
     "recievedAt",
@@ -190,10 +191,7 @@ router.post("/update", async (req, res) => {
 });
 
 router.post("/delete/:id", async (req, res) => {
-
- 
   return res.json({ message: "erro não implementado!" });
-
 }); // TODO produto delete
 
 router.get("/:id", async (req, res) => {
@@ -204,7 +202,7 @@ router.get("/:id", async (req, res) => {
   try {
     product = await Product.findAll({
       where: { id },
-      include: [{ model: ProductCategory }],
+      include: [{ model: ProductCategory }, { model: ProductCondition }],
     });
   } catch (error) {
     res.append("error-message", [

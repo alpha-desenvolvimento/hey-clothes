@@ -1,16 +1,12 @@
 'use strict';
 
 function randomDatePast() {
-  const end = new Date(2020, 1, 1);
-  const start = new Date();
-  return new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime())
-  );
+  return  new Date(2020, 1, 1);
 }
 
 function randomDateFuture() {
-  const end = new Date(2021, 1, 1);
-  const start = new Date();
+  const end = new Date();
+  const start = new Date(2020, 1, 2);
   return new Date(
     start.getTime() + Math.random() * (end.getTime() - start.getTime())
   );

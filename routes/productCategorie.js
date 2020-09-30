@@ -59,6 +59,7 @@ router.post("/create", async (req, res) => {
 
     return res.json(responseDb);
   } catch (dbFail) {
+    console.log(dbFail);
     var errorMessage = "";
 
     for (const error of dbFail.errors) {
