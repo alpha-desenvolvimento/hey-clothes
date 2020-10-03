@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 const sequelize = require("../connection");
+const Product = require('../models/Product')
 
 const Provider = sequelize.define("productProviders", {
   // id: { type: DataTypes.INTEGER, primaryKey: true },
@@ -14,5 +15,8 @@ const Provider = sequelize.define("productProviders", {
     values: [0, 1],
   },
 });
+
+Provider.hasMany(Product, { foreignKey: "provider" });
+
 
 module.exports = Provider;

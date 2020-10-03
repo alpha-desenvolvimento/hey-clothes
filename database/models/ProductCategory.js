@@ -2,6 +2,8 @@ const { DataTypes } = require("sequelize");
 
 const sequelize = require("../connection");
 
+const Product = require('../models/Product')
+
 const ProductCategory = sequelize.define("productCategories", {
   isActive: {
     type: DataTypes.INTEGER,
@@ -15,5 +17,7 @@ const ProductCategory = sequelize.define("productCategories", {
   },
   name: DataTypes.STRING,
 });
+
+ProductCategory.hasMany(Product, { foreignKey: "category" });
 
 module.exports = ProductCategory;

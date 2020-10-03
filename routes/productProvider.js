@@ -2,7 +2,7 @@ const { Op } = require("sequelize"),
   { Router, request, response } = require("express"),
   { getRequestParams } = require("../helper/requestUtils");
 
-const { Provider } = require("../database/models").models;
+const { Provider,Product } = require("../database/models").models;
 const router = Router();
 
 router.use(function (req, res, next) {
@@ -108,7 +108,12 @@ router.post("/delete", async (req, res) => {
 router.get("/:id", async (req, res) => {
   res.append("service-action", ["getByPk"]);
   const { id } = req.params;
-  const responseDb = await Provider.findByPk(id);
+  
+
+  const responseDb = await Provider
+    .findOne({ where: { id: id }, include: [{ model: Product, attributes: ["name", "price"], where: { provider: id } }] })
+    .catch(err => console.log(err));
+  
   if (responseDb) {
     return res.json(responseDb);
   } else {
