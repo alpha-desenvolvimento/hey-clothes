@@ -157,9 +157,9 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   const responseDb = await ProductCategory
-    .findOne({ where: { id: id }, include: [{ model: Product, attributes: ["name", "price"], where: { category: id } }] })
+    .findOne({ where: { id: id }, include: [{ model: Product, attributes: ["name", "price"], where: { category: id },required:false }] })
     .catch(err => console.log(err));
-  if (!responseDb) return res.send(null);
+  // if (!responseDb) return res.send(null);
 
   var hasProduct = false;
   try {
@@ -168,11 +168,12 @@ router.get("/:id", async (req, res) => {
         attributes: ["id"],
         where: { category: id },
       })) != null;
-  } catch (error) { }
+  } catch (error) { console.log(error)}
 
   responseDb.dataValues.hasProduct = hasProduct;
-
+  console.log("saindo")
   return res.send(responseDb);
+  
 });
 
 router.all("/*", function (req, res) {
