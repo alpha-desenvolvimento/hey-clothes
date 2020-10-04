@@ -111,13 +111,13 @@ router.get("/:id", async (req, res) => {
   
 
   const responseDb = await Provider
-    .findOne({ where: { id: id }, include: [{ model: Product, attributes: ["name", "price"], where: { provider: id } }] })
+    .findOne({ where: { id: id }, include: [{ model: Product, attributes: ["name", "price"], where: { provider: id }, required:false }] })
     .catch(err => console.log(err));
   
   if (responseDb) {
     return res.json(responseDb);
   } else {
-    res.append("error", ["Invalid ID or Provider ID don't exist."]);
+    
     return res.send(null);
   }
 });
