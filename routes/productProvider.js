@@ -101,8 +101,39 @@ router.post("/update", async (req, res) => {
 });
 
 router.post("/delete", async (req, res) => {
-  // TODO Provider delete
-  return res.json({ message: "erro não implementado!" });
+  var { id } = getRequestParams(req, ["id"]);
+  var provider;
+  try {
+    provider = await Provider.findByPk(id);
+  } catch (error) {
+    return res.json(null);
+  }
+
+  if (!provider) return res.send(null);
+
+  var hasProduct;
+  try {
+    hasProduct =
+      (await Product.findOne({
+        attributes: ["id"],
+        where: { condition: id },
+      })) != null;
+  } catch (error) {
+    return res.json(null);
+  }
+  console.log(hasProduct);
+
+  if (hasProduct) {
+    return res.json(null);
+  }
+
+  try {
+    provider.destroy();
+  } catch (error) {
+    return res.json(null);
+  }
+
+  return res.json(true);
 });
 
 router.get("/:id", async (req, res) => {
@@ -122,6 +153,19 @@ router.get("/:id", async (req, res) => {
   }).catch((err) => console.log(err));
 
   if (responseDb) {
+    var hasProduct = false;
+    try {
+      hasProduct =
+        (await Product.findOne({
+          attributes: ["id"],
+          where: { category: id },
+        })) != null;
+    } catch (error) {
+      console.log(error);
+    }
+
+    responseDb.dataValues.hasProduct = hasProduct;
+
     return res.json(responseDb);
   } else {
     return res.send(null);
