@@ -15,7 +15,8 @@ router.get("/list", async (req, res) => {
 
   var { catName } = req.query;
   const where = {};
-  if (catName) where.name = { [Op.iLike]: "%" + catName.split(" ").join("%") + "%" };
+  if (catName)
+    where.name = { [Op.iLike]: "%" + catName.split(" ").join("%") + "%" };
 
   var hasWhere = !(
     Object.keys(where).length === 0 && where.constructor === Object
@@ -83,7 +84,7 @@ router.post("/update", async (req, res) => {
   var category;
   try {
     category = await ProductCategory.findByPk(id);
-  } catch (error) { }
+  } catch (error) {}
 
   if (!category) {
     res.append("error", ["Invalid ID or no provider founded"]);
@@ -156,9 +157,17 @@ router.get("/:id", async (req, res) => {
   res.append("service-action", ["getByPk"]);
   const { id } = req.params;
 
-  const responseDb = await ProductCategory
-    .findOne({ where: { id: id }, include: [{ model: Product, attributes: ["name", "price"], where: { category: id },required:false }] })
-    .catch(err => console.log(err));
+  const responseDb = await ProductCategory.findOne({
+    where: { id: id },
+    include: [
+      {
+        model: Product,
+        attributes: ["id", "name", "price"],
+        where: { category: id },
+        required: false,
+      },
+    ],
+  }).catch((err) => console.log(err));
   // if (!responseDb) return res.send(null);
 
   var hasProduct = false;
@@ -168,12 +177,13 @@ router.get("/:id", async (req, res) => {
         attributes: ["id"],
         where: { category: id },
       })) != null;
-  } catch (error) { console.log(error)}
+  } catch (error) {
+    console.log(error);
+  }
 
   responseDb.dataValues.hasProduct = hasProduct;
-  console.log("saindo")
+  console.log("saindo");
   return res.send(responseDb);
-  
 });
 
 router.all("/*", function (req, res) {

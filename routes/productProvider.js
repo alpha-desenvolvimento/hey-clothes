@@ -2,7 +2,7 @@ const { Op } = require("sequelize"),
   { Router, request, response } = require("express"),
   { getRequestParams } = require("../helper/requestUtils");
 
-const { Provider,Product } = require("../database/models").models;
+const { Provider, Product } = require("../database/models").models;
 const router = Router();
 
 router.use(function (req, res, next) {
@@ -81,7 +81,7 @@ router.post("/update", async (req, res) => {
     console.log(error);
     return res.json(null);
   }
-  console.log('provider',provider);
+  console.log("provider", provider);
   if (!provider) return res.json(null);
 
   let { name, phone, email, endereco } = updatedProvider;
@@ -108,16 +108,22 @@ router.post("/delete", async (req, res) => {
 router.get("/:id", async (req, res) => {
   res.append("service-action", ["getByPk"]);
   const { id } = req.params;
-  
 
-  const responseDb = await Provider
-    .findOne({ where: { id: id }, include: [{ model: Product, attributes: ["name", "price"], where: { provider: id }, required:false }] })
-    .catch(err => console.log(err));
-  
+  const responseDb = await Provider.findOne({
+    where: { id: id },
+    include: [
+      {
+        model: Product,
+        attributes: ["id", "name", "price"],
+        where: { provider: id },
+        required: false,
+      },
+    ],
+  }).catch((err) => console.log(err));
+
   if (responseDb) {
     return res.json(responseDb);
   } else {
-    
     return res.send(null);
   }
 });
