@@ -46,7 +46,6 @@ const Product = sequelize.define(
   }
 );
 
-//TODO ARRUMAR ESSA PORRA
 const User = sequelize.define("user", {
   id: { type: DataTypes.INTEGER, primaryKey: true },
   name: DataTypes.STRING,
