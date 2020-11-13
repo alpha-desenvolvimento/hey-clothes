@@ -18,7 +18,6 @@ const Product = sequelize.define(
     condition: DataTypes.INTEGER,
     recievedAt: { type: DataTypes.DATE, allowNull: true },
     soldAt: { type: DataTypes.DATE, allowNull: true },
-    //
     isActive: {
       type: DataTypes.INTEGER,
       defaultValue: 1,

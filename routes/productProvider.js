@@ -22,7 +22,6 @@ router.get("/list", async (req, res) => {
     Object.keys(where).length === 0 && where.constructor === Object
   );
 
-  //TODO colocar em um trycatch
   const responseDb = await Provider.findAll({
     where: hasWhere ? where : null,
     order: [

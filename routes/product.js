@@ -65,8 +65,6 @@ router.get("/page/:offset", async (req, res) => {
   response.founded = dbResponse.count;
   dbResponse = dbResponse.rows;
 
-  // console.log(dbResponse);
-
   if (!dbResponse) {
     res.append("error-message", ["Erro ao executar pesquisa de produtos"]);
 
@@ -193,7 +191,7 @@ router.post("/update", async (req, res) => {
 
 router.post("/delete/:id", async (req, res) => {
   return res.json({ message: "erro não implementado!" });
-}); // TODO produto delete
+}); 
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;

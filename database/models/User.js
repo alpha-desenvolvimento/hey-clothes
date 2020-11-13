@@ -4,8 +4,7 @@ const sequelize = require("../connection");
 const Product = require("./Product");
 
 const User = sequelize.define("user", {
-  // id: { type: DataTypes.INTEGER, primaryKey: true },
-  name: DataTypes.STRING, //TODO atualizar username para name no documento
+  name: DataTypes.STRING,
   email: {
     type: DataTypes.STRING,
     validate: {

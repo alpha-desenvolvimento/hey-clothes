@@ -28,17 +28,6 @@ router.post("/user", async (req, res) => {
       token,
       name,
       id,
-      // profile: { // TODO criar perfis de usuário
-      //   name: "Admin",
-      //   permissions: {
-      //     user: {
-      //       create: true,
-      //       read: true,
-      //       delete: false,
-      //       update: true,
-      //     },
-      //   },
-      // },
     });
   }
 });

@@ -14,7 +14,6 @@ module.exports = {
         type: DataTypes.STRING,
       },
       isActive: {
-        //todo atualizar documento
         type: DataTypes.INTEGER,
         defaultValue: 1,
       },

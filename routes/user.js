@@ -3,7 +3,6 @@ const { Op, json } = require("sequelize"),
   { getRequestParams } = require("../helper/requestUtils");
 
 const { User, UserPasswordToken } = require("../database/models").models;
-// const jwt = require("../jwt");
 const jwt = require("jsonwebtoken");
 
 const router = Router();
@@ -95,7 +94,6 @@ router.post("/create", async (req, res) => {
 router.post("/update", async (req, res) => {
   const newValues = getRequestParams(req, ["id", "name", "email", "password"]);
 
-  //TODO users/update sempre retorna nulo para o front
   if (newValues.password && newValues.password.length < 6) {
     res.append("error-message", ["Senha deve contar pelo menos 6 caracteres."]);
     return res.json(null);
@@ -185,7 +183,7 @@ router.post("/updatePasswordWithToken/", async (req, res) => {
 
 router.post("/delete", async (req, res) => {
   return res.json({ message: "erro não implementado!" });
-}); // TODO USER delete
+}); 
 
 router.get("/:id", async (req, res) => {
   res.append("service-action", ["get by id"]);

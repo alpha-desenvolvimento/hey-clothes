@@ -4,7 +4,6 @@ const sequelize = require("../connection");
 const Product = require('../models/Product')
 
 const Provider = sequelize.define("productProviders", {
-  // id: { type: DataTypes.INTEGER, primaryKey: true },
   name: DataTypes.STRING,
   phone: DataTypes.STRING,
   email: DataTypes.STRING,

@@ -168,7 +168,6 @@ router.get("/:id", async (req, res) => {
       },
     ],
   }).catch((err) => console.log(err));
-  // if (!responseDb) return res.send(null);
 
   var hasProduct = false;
   try {
